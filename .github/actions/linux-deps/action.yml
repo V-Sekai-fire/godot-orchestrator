@@ -1,0 +1,17 @@
+name: Setup Linux Dependencies
+description: Setup Linux Build Dependencies
+runs:
+  using: "composite"
+  steps:
+
+    - name: Install GCC (Linux)
+      shell: sh
+      run: |
+        sudo apt-get update
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get install gcc g++ gcc-riscv64-linux-gnu g++-riscv64-linux-gnu -y
+
+    - name: Install Ninja (Linux)
+      shell: sh
+      run: |
+        sudo apt-get install ninja-build
