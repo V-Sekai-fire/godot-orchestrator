@@ -23,9 +23,10 @@
 class OScriptNodeSceneNode : public OScriptNode
 {
     ORCHESTRATOR_NODE_CLASS(OScriptNodeSceneNode, OScriptNode);
-    static void _bind_methods() { }
 
 protected:
+    static void _bind_methods() { }
+
     NodePath _node_path;
 
     //~ Begin Wrapped Interface

@@ -455,6 +455,7 @@ bool OScriptNodeComposeFrom::is_supported(Variant::Type p_type, const Vector<Pro
         case Variant::PACKED_INT64_ARRAY:
         case Variant::PACKED_VECTOR2_ARRAY:
         case Variant::PACKED_VECTOR3_ARRAY:
+        case Variant::PACKED_VECTOR4_ARRAY:
         case Variant::AABB:
         case Variant::BASIS:
         case Variant::CALLABLE:

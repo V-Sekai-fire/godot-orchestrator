@@ -25,6 +25,7 @@
 #include <godot_cpp/templates/hash_map.hpp>
 #include <godot_cpp/templates/vector.hpp>
 #include <godot_cpp/variant/string_name.hpp>
+#include <godot_cpp/variant/typed_array.hpp>
 
 // THIS FILE IS GENERATED. EDITS WILL BE LOST.
 

@@ -36,17 +36,17 @@ OScriptInstanceBase::~OScriptInstanceBase()
 {
 }
 
-void OScriptInstanceBase::init_instance(GDExtensionScriptInstanceInfo2& p_info)
+void OScriptInstanceBase::init_instance(GDExtensionScriptInstanceInfo3& p_info)
 {
     // Not all compilers do this automatically
     // If they're not overwritten here or by the derived implementations, null is used
-    memset(&p_info, 0, sizeof(GDExtensionScriptInstanceInfo2));
+    memset(&p_info, 0, sizeof(GDExtensionScriptInstanceInfo3));
 
     p_info.get_property_list_func = [](void* p_self, uint32_t* r_count) -> const GDExtensionPropertyInfo* {
         return ((OScriptInstanceBase*)p_self)->get_property_list(r_count);
     };
 
-    p_info.free_property_list_func = [](void* p_self, const GDExtensionPropertyInfo* p_list) {
+    p_info.free_property_list_func = [](void* p_self, const GDExtensionPropertyInfo* p_list, unsigned int count) {
         ((OScriptInstanceBase*)p_self)->free_property_list(p_list);
     };
 
@@ -63,7 +63,7 @@ void OScriptInstanceBase::init_instance(GDExtensionScriptInstanceInfo2& p_info)
         return ((OScriptInstanceBase*)p_self)->get_method_list(r_count);
     };
 
-    p_info.free_method_list_func = [](void* p_self, const GDExtensionMethodInfo* p_list) {
+    p_info.free_method_list_func = [](void* p_self, const GDExtensionMethodInfo* p_list, unsigned int count) {
         ((OScriptInstanceBase*)p_self)->free_method_list(p_list);
     };
 

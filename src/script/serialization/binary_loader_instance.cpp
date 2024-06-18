@@ -23,6 +23,7 @@
 #include <godot_cpp/classes/missing_resource.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/resource_uid.hpp>
+#include <godot_cpp/variant/typed_array.hpp>
 
 bool OScriptBinaryResourceLoaderInstance::_is_cached(const String& p_path)
 {
@@ -31,11 +32,7 @@ bool OScriptBinaryResourceLoaderInstance::_is_cached(const String& p_path)
 
 Ref<Resource> OScriptBinaryResourceLoaderInstance::_get_cached_ref(const String& p_path)
 {
-    #if GODOT_VERSION >= 0x040300
-    return ResourceLoader::get_singleton()->get_cached_ref(p_path);
-    #else
-    return nullptr;
-    #endif
+    return Ref<Resource>();
 }
 
 String OScriptBinaryResourceLoaderInstance::_read_unicode_string()
@@ -555,6 +552,24 @@ Error OScriptBinaryResourceLoaderInstance::_parse_variant(Variant& r_val)
             r_val = array;
             break;
         }
+        case VARIANT_PACKED_VECTOR4_ARRAY:
+        {
+            uint32_t size = _file->get_32();
+
+            PackedVector4Array array;
+            array.resize(size);
+
+            for (uint32_t i = 0; i < size; i++)
+            {
+                array[i].x = _file->get_double();
+                array[i].y = _file->get_double();
+                array[i].z = _file->get_double();
+                array[i].w = _file->get_double();
+            }
+
+            r_val = array;
+            break;
+        }
         default:
             ERR_FAIL_V(ERR_FILE_CORRUPT);
     }
@@ -702,19 +717,6 @@ Error OScriptBinaryResourceLoaderInstance::load()
         String type = _read_unicode_string();
 
         Ref<Resource> res;
-        #if GODOT_VERSION >= 0x040300
-        if (_cache_mode == ResourceFormatLoader::CACHE_MODE_REPLACE && _is_cached(path))
-        {
-            // Use existing one
-            Ref<Resource> cached = _get_cached_ref(path);
-            if (cached->get_class() == type)
-            {
-                cached->reset_state();
-                _resource = cached;
-            }
-        }
-        #endif
-
         MissingResource* missing_resource = nullptr;
         if (res.is_null())
         {
@@ -809,12 +811,6 @@ Error OScriptBinaryResourceLoaderInstance::load()
 
         if (!missing_resource_properties.is_empty())
             res->set_meta("_missing_resources", missing_resource_properties);
-
-        #ifdef TOOLS_ENABLED
-        #if GODOT_VERSION >= 0x040300
-        res->set_edited(false);
-        #endif
-        #endif
 
         _resource_cache.push_back(res);
 

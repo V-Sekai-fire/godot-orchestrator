@@ -46,10 +46,13 @@ class OScriptInstance : public OScriptInstanceBase
     Object* _owner{ nullptr };                  //! The owning object of the script
     OScriptLanguage* _language{ nullptr };      //! The language the script represents
     OScriptVirtualMachine _vm;                  //! The virtual machine instance
-
+    
+protected:
+    static void _bind_methods() {};
+    
 public:
     /// Defines details about the script instance to be passed to Godot
-    static const GDExtensionScriptInstanceInfo2 INSTANCE_INFO;
+    static const GDExtensionScriptInstanceInfo3 INSTANCE_INFO;
 
     /// Create an OScriptInstance object
     /// @param p_script the orchestrator script this instance represents

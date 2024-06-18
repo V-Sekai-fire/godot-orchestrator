@@ -39,14 +39,6 @@ String OScriptNodeEvent::get_node_title() const
 
 String OScriptNodeEvent::get_help_topic() const
 {
-    #if GODOT_VERSION >= 0x040300
-    if (_function.is_valid())
-    {
-        class String class_name = MethodUtils::get_method_class(_script->get_base_type(), _function->get_function_name());
-        if (!class_name.is_empty())
-            return vformat("class_method:%s:%s", class_name, _function->get_function_name());
-    }
-    #endif
     return super::get_help_topic();
 }
 

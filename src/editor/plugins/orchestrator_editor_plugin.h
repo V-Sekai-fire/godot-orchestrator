@@ -36,8 +36,6 @@ class OrchestratorPlugin : public EditorPlugin
 {
     GDCLASS(OrchestratorPlugin, EditorPlugin);
 
-    static void _bind_methods();
-
     static OrchestratorPlugin* _plugin;
 
     EditorInterface& _editor;                                 //! Godot editor interface reference
@@ -45,6 +43,9 @@ class OrchestratorPlugin : public EditorPlugin
     OrchestratorWindowWrapper* _window_wrapper{ nullptr };    //! Window wrapper
     Vector<Ref<EditorInspectorPlugin>> _inspector_plugins;
     Ref<OrchestratorThemeCache> _theme_cache;
+    
+protected:
+    static void _bind_methods();
 
 public:
     /// Constructor

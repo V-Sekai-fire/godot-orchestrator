@@ -25,9 +25,9 @@
 #include <godot_cpp/core/mutex_lock.hpp>
 
 OScript::OScript()
-    : _valid(true)
+    : Orchestration(this, OT_Script)
+    , _valid(true)
     , _language(OScriptLanguage::get_singleton())
-    , Orchestration(this, OT_Script)
 {
 }
 
@@ -98,7 +98,7 @@ void* OScript::_placeholder_instance_create(Object* p_object) const
         MutexLock lock(*_language->lock.ptr());
         _placeholders[p_object->get_instance_id()] = psi;
     }
-    return internal::gdextension_interface_script_instance_create2(&OScriptPlaceHolderInstance::INSTANCE_INFO, psi);
+    return internal::gdextension_interface_script_instance_create3(&OScriptPlaceHolderInstance::INSTANCE_INFO, psi);
     #else
     return nullptr;
     #endif
@@ -134,7 +134,7 @@ void* OScript::_instance_create(Object* p_object) const
         _instances[p_object] = si;
     }
 
-    void* godot_inst = internal::gdextension_interface_script_instance_create2(&OScriptInstance::INSTANCE_INFO, si);
+    void* godot_inst = internal::gdextension_interface_script_instance_create3(&OScriptInstance::INSTANCE_INFO, si);
 
     // Dispatch the "Init Event" if its wired
     if (has_function("_init"))
@@ -325,13 +325,6 @@ String OScript::_get_class_icon_path() const
 {
     return {};
 }
-
-#if GODOT_VERSION >= 0x040300
-ScriptLanguage::ScriptNameCasing OScript::_preferred_file_name_casing() const
-{
-    return ScriptLanguage::SCRIPT_NAME_CASING_SNAKE_CASE;
-}
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Internal API

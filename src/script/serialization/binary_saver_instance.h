@@ -27,6 +27,7 @@
 #include <godot_cpp/templates/list.hpp>
 #include <godot_cpp/templates/rb_map.hpp>
 #include <godot_cpp/templates/vector.hpp>
+#include <godot_cpp/variant/typed_array.hpp>
 
 using namespace godot;
 

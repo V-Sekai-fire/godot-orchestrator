@@ -52,11 +52,6 @@ String OScriptNodeCallMemberFunction::get_node_title() const
 
 String OScriptNodeCallMemberFunction::get_help_topic() const
 {
-    #if GODOT_VERSION >= 0x040300
-    const String class_name = MethodUtils::get_method_class(_reference.target_class_name, _reference.method.name);
-    if (!class_name.is_empty())
-        return vformat("class_method:%s:%s", class_name, _reference.method.name);
-    #endif
     return super::get_help_topic();
 }
 

@@ -68,7 +68,32 @@ class OScriptNode : public Resource
 
 protected:
     /// Godot bindings
-    static void _bind_methods();
+    static void _bind_methods()
+    {
+        ClassDB::bind_method(D_METHOD("set_id", "id"), &OScriptNode::set_id);
+        ClassDB::bind_method(D_METHOD("get_id"), &OScriptNode::get_id);
+        ADD_PROPERTY(PropertyInfo(Variant::INT, "id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_STORAGE), "set_id", "get_id");
+
+        ClassDB::bind_method(D_METHOD("set_size", "size"), &OScriptNode::set_size);
+        ClassDB::bind_method(D_METHOD("get_size"), &OScriptNode::get_size);
+        ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "size", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_STORAGE), "set_size",
+                    "get_size");
+
+        ClassDB::bind_method(D_METHOD("set_position", "position"), &OScriptNode::set_position);
+        ClassDB::bind_method(D_METHOD("get_position"), &OScriptNode::get_position);
+        ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "position", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_STORAGE),
+                    "set_position", "get_position");
+
+        ClassDB::bind_method(D_METHOD("_set_pin_data", "pin_data"), &OScriptNode::_set_pin_data);
+        ClassDB::bind_method(D_METHOD("_get_pin_data"), &OScriptNode::_get_pin_data);
+        ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "pin_data", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_STORAGE),
+                    "_set_pin_data", "_get_pin_data");
+
+        ADD_SIGNAL(MethodInfo("pin_connected", PropertyInfo(Variant::INT, "pin_type"), PropertyInfo(Variant::INT, "index")));
+        ADD_SIGNAL(
+            MethodInfo("pin_disconnected", PropertyInfo(Variant::INT, "pin_type"), PropertyInfo(Variant::INT, "index")));
+        ADD_SIGNAL(MethodInfo("pins_changed"));
+    }
 
 public:
     /// Flags for script nodes

@@ -24,9 +24,10 @@
 class OScriptNodeSelf : public OScriptNode
 {
     ORCHESTRATOR_NODE_CLASS(OScriptNodeSelf, OScriptNode);
-    static void _bind_methods() { }
 
     void _on_script_changed();
+protected:
+    static void _bind_methods() { }
 
 public:
     //~ Begin OScriptNode Interface

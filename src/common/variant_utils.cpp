@@ -86,6 +86,8 @@ namespace VariantUtils
                 return "Packed Vector3 Array";
             case Variant::PACKED_COLOR_ARRAY:
                 return "Packed Color Array";
+            case Variant::PACKED_VECTOR4_ARRAY:
+                return "Packed Vector4 Array";
             default:
             {
                 String name = Variant::get_type_name(p_type);
