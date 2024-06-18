@@ -89,6 +89,8 @@ public:
                 return _step_internal<PackedVector3Array>(p_context);
             case Variant::PACKED_COLOR_ARRAY:
                 return _step_internal<PackedColorArray>(p_context);
+            case Variant::PACKED_VECTOR4_ARRAY:
+                return _step_internal<PackedVector4Array>(p_context);
             default:
                 p_context.set_type_unexpected_type_error(0, _collection_type);
             return -1;
@@ -154,6 +156,8 @@ public:
                 return _step_internal<PackedVector3Array>(p_context);
             case Variant::PACKED_COLOR_ARRAY:
                 return _step_internal<PackedColorArray>(p_context);
+            case Variant::PACKED_VECTOR4_ARRAY:
+                return _step_internal<PackedVector4Array>(p_context);
             default:
                 p_context.set_type_unexpected_type_error(0, _collection_type);
                 return -1;

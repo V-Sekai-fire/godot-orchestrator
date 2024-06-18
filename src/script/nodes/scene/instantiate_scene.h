@@ -26,6 +26,7 @@ class OScriptNodeInstantiateScene : public OScriptNode
     static void _bind_methods() { }
 
 protected:
+    static void _bind_methods() {}
     String _scene;
 
     //~ Begin Wrapped Interface

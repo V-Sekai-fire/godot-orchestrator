@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,13 +22,12 @@
 #include "script/script.h"
 
 #include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/core/mutex_lock.hpp>
 #include <godot_cpp/templates/local_vector.hpp>
 
-static OScriptInstanceInfo init_script_instance_info()
+static GDExtensionScriptInstanceInfo3 init_script_instance_info()
 {
-    OScriptInstanceInfo info;
+    GDExtensionScriptInstanceInfo3 info;
     OScriptInstanceBase::init_instance(info);
 
     info.set_func = [](void* p_self, GDExtensionConstStringNamePtr p_name,
@@ -75,14 +74,10 @@ static OScriptInstanceInfo init_script_instance_info()
         return true;
     };
 
-    info.to_string_func = [](void* p_self, GDExtensionBool* r_valid, GDExtensionStringPtr r_value) {
-        ((OScriptInstance*) p_self)->to_string(r_valid, (String*)r_value);
-    };
-
     return info;
 }
 
-const OScriptInstanceInfo OScriptInstance::INSTANCE_INFO = init_script_instance_info();
+const GDExtensionScriptInstanceInfo3 OScriptInstance::INSTANCE_INFO = init_script_instance_info();
 
 OScriptInstance::OScriptInstance(const Ref<OScript>& p_script, OScriptLanguage* p_language, Object* p_owner)
     : _script(p_script)
@@ -110,7 +105,7 @@ bool OScriptInstance::set(const StringName& p_name, const Variant& p_value, Prop
     const String variable_name = _get_variable_name_from_path(p_name);
 
     OScriptVirtualMachine::Variable* variable = _vm.get_variable(variable_name);
-    if (!variable)
+    if (!variable || !variable->exported)
     {
         if (r_err)
             *r_err = PROP_NOT_FOUND;
@@ -127,33 +122,23 @@ bool OScriptInstance::set(const StringName& p_name, const Variant& p_value, Prop
 
 bool OScriptInstance::get(const StringName& p_name, Variant& p_value, PropertyError* r_err)
 {
-    // First check if we have a member variable
     const String variable_name = _get_variable_name_from_path(p_name);
-    if (_vm.has_variable(variable_name))
-    {
-        OScriptVirtualMachine::Variable* variable = _vm.get_variable(variable_name);
-        if (!variable)
-        {
-            if (r_err)
-                *r_err = PROP_NOT_FOUND;
-            return false;
-        }
 
+    OScriptVirtualMachine::Variable* variable = _vm.get_variable(variable_name);
+    if (!variable || !variable->exported)
+    {
         if (r_err)
-            *r_err = PROP_OK;
+            *r_err = PROP_NOT_FOUND;
 
-        p_value = variable->value;
-        return true;
+        return false;
     }
 
-    // Next check signals - for named access, i.e. "await obj.signal"
-    if (_vm.has_signal(p_name))
-    {
-        p_value = _vm.get_signal(p_name);
-        return true;
-    }
+    if (r_err)
+        *r_err = PROP_OK;
 
-    return false;
+    p_value = variable->value;
+
+    return true;
 }
 
 GDExtensionPropertyInfo* OScriptInstance::get_property_list(uint32_t* r_count)
@@ -249,32 +234,17 @@ bool OScriptInstance::property_get_revert(const StringName& p_name, Variant* r_r
 
 void OScriptInstance::notification(int32_t p_what, bool p_reversed)
 {
-    const Array args = Array::make(p_what, p_reversed);
-    const Variant** argptrs = (const Variant**)alloca(sizeof(Variant*) * args.size());
-    for (int i = 0; i < args.size(); i++)
-        argptrs[i] = &args[i];
-
-    GDExtensionCallError error;
-    Variant ret;
-    call("_notification", argptrs, args.size(), &ret, &error);
 }
 
 void OScriptInstance::to_string(GDExtensionBool* r_is_valid, String* r_out)
 {
-    if (r_is_valid)
-        *r_is_valid = true;
+    *r_is_valid = true;
 
-    // Align this behavior with Godot
     if (r_out)
     {
-        String prefix = "";
-        if (Node* node = Object::cast_to<Node>(_owner))
-        {
-            if (!node->get_name().is_empty())
-                prefix = vformat("%s:", node->get_name());
-        }
-
-        *r_out = vformat("%s<%s#%d>", prefix, _owner->get_class(), _owner->get_instance_id());
+        std::stringstream ss;
+        ss << "OrchestratorScriptInstance[" << _script->get_path().utf8().get_data() << "]:" << std::hex << this;
+        *r_out = ss.str().c_str();
     }
 }
 
@@ -296,5 +266,5 @@ OScriptInstance* OScriptInstance::from_object(GDExtensionObjectPtr p_object)
 void OScriptInstance::call(const StringName& p_method, const Variant* const* p_args, GDExtensionInt p_arg_count,
                            Variant* r_return, GDExtensionCallError* r_err)
 {
-    _vm.call_method(this, p_method, p_args, p_arg_count, r_return, r_err);
+    _vm.call_method(p_method, p_args, p_arg_count, r_return, r_err);
 }

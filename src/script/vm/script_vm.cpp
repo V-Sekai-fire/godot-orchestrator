@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,7 @@
 #include "orchestration/orchestration.h"
 #include "script/instances/node_instance.h"
 #include "script/nodes/variables/local_variable.h"
-#include "script/utility_functions.h"
 #include "script/vm/script_state.h"
-
-#include <godot_cpp/classes/engine_debugger.hpp>
 
 static int get_exec_pin_index_of_port(const Ref<OScriptNode>& p_node, int p_port, EPinDirection p_direction)
 {
@@ -180,7 +177,7 @@ bool OScriptVirtualMachine::_create_node_instance_pins(const Ref<OScriptNode>& p
     {
         // Currently we ignore hidden pins.
         // Ideally long-term, this logic should allow hidden pins to be used for internal purposes.
-        if (pin->is_hidden())
+        if (pin->get_flags().has_flag(OScriptNodePin::Flags::HIDDEN))
             continue;
 
         switch (pin->get_direction())
@@ -549,43 +546,8 @@ void OScriptVirtualMachine::_dependency_step(OScriptExecutionContext& p_context,
 
 int OScriptVirtualMachine::_execute_step(OScriptExecutionContext& p_context, OScriptNodeInstance* p_instance)
 {
-    // In the case of dependency steps, adjust current node id
-    int current_node_id = p_instance->get_id();
-    if (p_context.get_current_node() != current_node_id)
-        p_context._current_node_id = p_instance->get_id();
-
     // Setup step details
     p_context._set_current_node_working_memory(p_instance->get_working_memory_size());
-
-    #if GODOT_VERSION >= 0x040300
-    EngineDebugger* debugger = EngineDebugger::get_singleton();
-    if (debugger && debugger->is_active())
-    {
-        Orchestration* orchestration = p_instance->get_base_node()->get_orchestration();
-
-        bool do_break = false;
-        const int node_id = p_instance->get_base_node()->get_id();
-
-        if (debugger->get_lines_left() > 0)
-        {
-            if (debugger->get_depth() <= 0)
-                debugger->set_lines_left(debugger->get_lines_left() - 1);
-            if (debugger->get_lines_left() <= 0)
-                do_break = true;
-        }
-
-        if (!do_break && debugger->is_breakpoint(node_id, orchestration->get_self()->get_path()))
-            do_break = true;
-
-        if (do_break && !debugger->is_skipping_breakpoints())
-            OScriptLanguage::get_singleton()->debug_break("Breakpoint: Before Node " + itos(node_id) + " executes.", true);
-
-        debugger->line_poll();
-    }
-    #endif
-
-    // Reset node
-    p_context._current_node_id = current_node_id;
 
     // Execute
     return p_instance->step(p_context);
@@ -599,7 +561,7 @@ OScriptNodeInstance* OScriptVirtualMachine::_resolve_next_node(OScriptExecutionC
             return p_instance->execution_outputs[p_next_node_id];
 
         // No exit bit was set and node has an execution output
-        p_context.set_error(
+        p_context.set_error(GDEXTENSION_CALL_ERROR_INVALID_METHOD,
             vformat("Node %s: %d returned an invalid execution pin output %d",
                 p_instance->get_base_node()->get_class(),
                 p_instance->get_id(),
@@ -637,45 +599,44 @@ void OScriptVirtualMachine::_report_error(OScriptExecutionContext& p_context, OS
     const int err_line = p_context.get_current_node();
 
     String error_str = p_context.get_error_reason();
-    if (error_str.is_empty())
+
+    if (p_instance && (p_context.get_error().error != GDEXTENSION_CALL_ERROR_INVALID_METHOD || error_str.is_empty()))
     {
+        if (!error_str.is_empty())
+            error_str += " ";
+
         switch (p_context.get_error().error)
         {
             case GDEXTENSION_CALL_ERROR_INVALID_ARGUMENT:
             {
-                error_str = "Invalid argument detected.";
+                error_str += "Cannot convert argument " + itos(p_context.get_error().argument) + " to "
+                             + Variant::get_type_name(Variant::Type(p_context.get_error().expected)) + ".";
                 break;
             }
             case GDEXTENSION_CALL_ERROR_TOO_MANY_ARGUMENTS:
-            {
-                error_str = "Too many arguments detected.";
-                break;
-            }
             case GDEXTENSION_CALL_ERROR_TOO_FEW_ARGUMENTS:
             {
-                error_str = "Too few arguments detected.";
+                error_str += "Expected " + itos(p_context.get_error().argument) + " arguments.";
                 break;
             }
             case GDEXTENSION_CALL_ERROR_INVALID_METHOD:
             {
-                error_str = vformat("An unexpected error happened inside the '%s' method.", p_method);
+                error_str += "Invalid call.";
                 break;
             }
             case GDEXTENSION_CALL_ERROR_METHOD_NOT_CONST:
             {
-                error_str = vformat("The method '%s' is not const, but called in a const instance.", p_method);
+                error_str += "Method not const in a const instance.";
                 break;
             }
             case GDEXTENSION_CALL_ERROR_INSTANCE_IS_NULL:
             {
-                error_str = vformat("Method '%s' exception detected for a null instance", p_method);
+                error_str += "Instance is null";
                 break;
             }
             default:
-            {
-                error_str = vformat("An unexpected error inside method '%s'.", p_method);
+                // no-op
                 break;
-            }
         }
     }
 
@@ -697,11 +658,6 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
     OScriptNodeInstance* node = p_instance;
     int node_port = 0; // always assumes 0 for now
 
-    #if GODOT_VERSION >= 0x040300
-    if (EngineDebugger::get_singleton()->is_active())
-        OScriptLanguage::get_singleton()->function_entry(&p_method, p_context);
-    #endif
-
     while (node)
     {
         // Track current node details
@@ -721,7 +677,7 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
                 context.get_error_reason()));
 
             r_return.clear();
-            break;
+            return;
         }
 
         // Initialize working memory
@@ -749,7 +705,7 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
             // This is invalid and we should immediately terminate the function call in this use case.
             if (node->get_working_memory_size() == 0)
             {
-                context.set_error("Execution yielded without any working memory");
+                context.set_error(GDEXTENSION_CALL_ERROR_INVALID_ARGUMENT, "Yielded without any working memory.");
                 break;
             }
 
@@ -758,7 +714,7 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
             Ref<OScriptState> state = context.get_working_memory();
             if (!state.is_valid())
             {
-                context.set_error("Execution yield failed to create memory state");
+                context.set_error(GDEXTENSION_CALL_ERROR_INVALID_METHOD, "Yield failed to create memory state.");
                 break;
             }
 
@@ -767,7 +723,6 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
             state->_instance_id = _owner->get_instance_id();
             state->_script_id = _script->get_instance_id();
             state->_instance = this;
-            state->_script_instance = p_context->_script_instance;
             state->_function = p_method;
             state->_working_memory_index = node->working_memory_index;
             state->_variant_stack_size = p_function->max_stack;
@@ -779,13 +734,8 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
             state->_stack.resize(stack_size);
             memcpy(state->_stack.ptrw(), context._get_stack(), stack_size);
 
-            context.clear_error();
+            context.set_error(GDEXTENSION_CALL_OK);
             r_return = state;
-
-            #if GODOT_VERSION >= 0x040300
-            if (EngineDebugger::get_singleton()->is_active())
-                OScriptLanguage::get_singleton()->function_exit(&p_method, p_context);
-            #endif
 
             return;
         }
@@ -796,26 +746,9 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
             if (node->get_working_memory_size() > 0)
                 r_return = context.get_working_memory();
             else
-                context.set_error("Return value should be assigned to node's working memory");
+                context.set_error(GDEXTENSION_CALL_ERROR_INVALID_METHOD, "Return value should be assigned to node's working memory.");
             break;
         }
-
-        #if GODOT_VERSION >= 0x040300
-        if (EngineDebugger::get_singleton()->is_active())
-        {
-            bool do_break = false;
-
-            const int node_id = node->get_base_node()->get_id();
-            const String path = node->get_base_node()->get_orchestration()->get_self()->get_path();
-            if (EngineDebugger::get_singleton()->is_breakpoint(node_id, path))
-                do_break = true;
-
-            if (do_break && !EngineDebugger::get_singleton()->is_skipping_breakpoints())
-                OScriptLanguage::get_singleton()->debug_break("Breakpoint: After Node " + itos(node_id) + " has executed.", true);
-
-            EngineDebugger::get_singleton()->line_poll();
-        }
-        #endif
 
         // Calculate the output node
         const int next_node_id = result & OScriptNodeInstance::STEP_MASK;
@@ -867,7 +800,7 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
                     }
                     if (!found)
                     {
-                        context.set_error("Found execution bit but not the node in the stack.");
+                        context.set_error(GDEXTENSION_CALL_ERROR_INVALID_METHOD, "Found execution bit but not the node in the stack.");
                         break;
                     }
 
@@ -880,7 +813,7 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
                     // Check for overflow
                     if (context._get_flow_stack_position() + 1 >= context._get_flow_stack_size())
                     {
-                        context.set_error("Stack overflow");
+                        context.set_error(GDEXTENSION_CALL_ERROR_INVALID_METHOD, "Stack overflow");
                         break;
                     }
 
@@ -925,11 +858,6 @@ void OScriptVirtualMachine::_call_method_internal(const StringName& p_method, OS
     if (context.has_error())
         _report_error(context, node, p_method);
 
-    #if GODOT_VERSION >= 0x040300
-    if (EngineDebugger::get_singleton()->is_active())
-        OScriptLanguage::get_singleton()->function_exit(&p_method, p_context);
-    #endif
-
     // Cleanup
     context._cleanup();
 }
@@ -941,17 +869,12 @@ bool OScriptVirtualMachine::register_variable(const Ref<OScriptVariable>& p_vari
 
     Variable variable;
     variable.exported = p_variable->is_exported();
-    variable.value = p_variable->get_default_value().duplicate();
+    variable.value= p_variable->get_default_value();
     variable.type = p_variable->get_variable_type();
 
     _variables[p_variable->get_variable_name()] = variable;
 
     return true;
-}
-
-bool OScriptVirtualMachine::has_variable(const StringName& p_name) const
-{
-    return _variables.has(p_name);
 }
 
 OScriptVirtualMachine::Variable* OScriptVirtualMachine::get_variable(const StringName& p_name) const
@@ -980,17 +903,6 @@ bool OScriptVirtualMachine::set_variable(const StringName& p_name, const Variant
     variable.value = p_value;
 
     return true;
-}
-
-bool OScriptVirtualMachine::has_signal(const StringName& p_name) const
-{
-    return _script->has_script_signal(p_name);
-}
-
-Variant OScriptVirtualMachine::get_signal(const StringName& p_name)
-{
-    ERR_FAIL_COND_V_MSG(!_script->has_script_signal(p_name), Variant(), "No signal with name '" + p_name + "' found.");
-    return Signal(get_owner(), p_name);
 }
 
 bool OScriptVirtualMachine::register_function(const Ref<OScriptFunction>& p_function)
@@ -1034,20 +946,11 @@ bool OScriptVirtualMachine::register_function(const Ref<OScriptFunction>& p_func
     return true;
 }
 
-void OScriptVirtualMachine::call_method(OScriptInstance* p_instance, const StringName& p_method, const Variant* const* p_args, GDExtensionInt p_arg_count, Variant* r_return, GDExtensionCallError* r_err)
+void OScriptVirtualMachine::call_method(const StringName& p_method, const Variant* const* p_args, GDExtensionInt p_arg_count, Variant* r_return, GDExtensionCallError* r_err)
 {
     ERR_FAIL_COND_MSG(!r_err, "No error code argument provided.");
 
     r_err->error = GDEXTENSION_CALL_OK;
-
-    if (OScriptUtilityFunctions::function_exists(p_method))
-    {
-        if (OScriptUtilityFunctions::FunctionPtr func = OScriptUtilityFunctions::get_function(p_method))
-        {
-            func(r_return, const_cast<const Variant**>(p_args), p_arg_count, *r_err);
-            return;
-        }
-    }
 
     // Check whether the method is defined as part of the Orchestration.
     // This means that there will be a function defined in the function map.
@@ -1078,8 +981,7 @@ void OScriptVirtualMachine::call_method(OScriptInstance* p_instance, const Strin
         F->instance = N->value;
     }
 
-    if (F->max_stack > _max_call_stack)
-    {
+    if (F->max_stack > _max_call_stack) {
         ERR_FAIL_MSG("Unable to call function, call stack exceeds " + itos(_max_call_stack));
     }
 
@@ -1100,7 +1002,6 @@ void OScriptVirtualMachine::call_method(OScriptInstance* p_instance, const Strin
     context._initialize_variant_stack();
     context._push_node_onto_flow_stack(F->node);
     context._push_arguments(p_args, static_cast<int>(p_arg_count));
-    context._script_instance = p_instance;
 
     // Dispatch to the internal handler
     _call_method_internal(p_method, &context, false, F->instance, F, *r_return, *r_err);

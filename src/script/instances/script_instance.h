@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@
 using namespace godot;
 
 /// Forward declarations
+class OScript;
+class OScriptLanguage;
 class OScriptNode;
 class OScriptState;
 
@@ -38,18 +40,19 @@ class OScriptState;
 ///
 class OScriptInstance : public OScriptInstanceBase
 {
-    friend class OScript;
-    friend class OScriptLanguage;
     friend class OScriptState;
 
     Ref<OScript> _script;                       //! The script this instance represents
     Object* _owner{ nullptr };                  //! The owning object of the script
     OScriptLanguage* _language{ nullptr };      //! The language the script represents
     OScriptVirtualMachine _vm;                  //! The virtual machine instance
-
+    
+protected:
+    static void _bind_methods() {};
+    
 public:
     /// Defines details about the script instance to be passed to Godot
-    static const OScriptInstanceInfo INSTANCE_INFO;
+    static const GDExtensionScriptInstanceInfo3 INSTANCE_INFO;
 
     /// Create an OScriptInstance object
     /// @param p_script the orchestrator script this instance represents

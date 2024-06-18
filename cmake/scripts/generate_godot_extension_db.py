@@ -1,6 +1,6 @@
 ## This file is part of the Godot Orchestrator project.
 ##
-## Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+## Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -101,7 +101,6 @@ def get_variant_type(variant_type):
         return "Variant::PACKED_VECTOR3_ARRAY"
     elif variant_type == "PackedColorArray":
         return "Variant::PACKED_COLOR_ARRAY"
-    # Godot 4.3+
     elif variant_type == "PackedVector4Array":
         return "Variant::PACKED_VECTOR4_ARRAY"
     return variant_type
@@ -267,50 +266,50 @@ def create_structs():
     print_indent("/// Describes a mapping between an enum name and value")
     print_struct("EnumValue", ["StringName name",
                                "StringName friendly_name",
-                               "int value{ 0 }"])
+                               "int value"])
 
     print_indent("/// Describes a definition of an Enumeration type")
     print_struct("EnumInfo", ["StringName name",
-                              "bool is_bitfield{ false }",
+                              "bool is_bitfield",
                               "Vector<EnumValue> values"])
 
     print_indent("/// Describes a function")
     print_struct("FunctionInfo", ["StringName name",
                                   "PropertyInfo return_val",
                                   "StringName category",
-                                  "bool is_vararg{ false }",
+                                  "bool is_vararg",
                                   "Vector<PropertyInfo> arguments"])
 
     print_indent("/// Describes an operator for a Godot type")
-    print_struct("OperatorInfo", ["VariantOperators::Code op{ VariantOperators::OP_EQUAL }",
+    print_struct("OperatorInfo", ["VariantOperators::Code op",
                                   "StringName code",
                                   "StringName name",
-                                  "Variant::Type left_type{ Variant::NIL }",
+                                  "Variant::Type left_type",
                                   "StringName left_type_name",
-                                  "Variant::Type right_type{ Variant::NIL }",
+                                  "Variant::Type right_type",
                                   "StringName right_type_name",
-                                  "Variant::Type return_type{ Variant::NIL }"])
+                                  "Variant::Type return_type"])
 
     print_indent("/// Describes a constructor definition")
     print_struct("ConstructorInfo", ["Vector<PropertyInfo> arguments"])
 
     print_indent("/// Describes a Constant definition")
     print_struct("ConstantInfo", ["StringName name",
-                                  "Variant::Type type{ Variant::NIL }",
+                                  "Variant::Type type",
                                   "Variant value"])
 
     print_indent("/// Builtin Godot Type details")
     print_struct("BuiltInType", ["StringName name",
-                                 "Variant::Type type{ Variant::NIL }",
-                                 "bool keyed{ false }",
-                                 "bool has_destructor{ false }",
+                                 "Variant::Type type",
+                                 "bool keyed",
+                                 "bool has_destructor",
                                  "Vector<OperatorInfo> operators",
                                  "Vector<ConstructorInfo> constructors",
                                  "Vector<MethodInfo> methods",
                                  "Vector<PropertyInfo> properties",
                                  "Vector<ConstantInfo> constants",
                                  "Vector<EnumInfo> enums",
-                                 "Variant::Type index_returning_type{ Variant::NIL }"])
+                                 "Variant::Type index_returning_type"])
 
     print_indent("/// Describes a Godot Class")
     print_struct("ClassInfo", ["StringName name",
@@ -394,7 +393,6 @@ def create_db_header():
     print_indent("static PackedStringArray get_global_enum_names();")
     print_indent("static PackedStringArray get_global_enum_value_names();")
     print_indent("static EnumInfo get_global_enum(const StringName& p_enum_name);")
-    print_indent("static EnumInfo get_global_enum_by_value(const StringName& p_name);")
     print_indent("static EnumValue get_global_enum_value(const StringName& p_enum_value_name);")
     print_indent("")
     print_indent("static PackedStringArray get_math_constant_names();")
@@ -542,8 +540,6 @@ def get_method_flags(method):
         flags += " | METHOD_FLAG_STATIC"
     if 'is_vararg' in method and method["is_vararg"]:
         flags += " | METHOD_FLAG_VARARG"
-    if 'is_required' in method and method["is_required"]:
-        flags += " | METHOD_FLAG_VIRTUAL_REQUIRED"
     return flags
 
 
@@ -562,10 +558,7 @@ def write_builtin_type_methods(godot_type):
                 for arg in method["arguments"]:
                     if len(args) > 0:
                         args += ", "
-                    args += "{ " + get_variant_type(arg["type"]) + ", " + quote(arg["name"])
-                    if arg["type"] == "Variant":
-                        args += ", PROPERTY_HINT_NONE, \"\", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT"
-                    args += " }"
+                    args += "{ " + get_variant_type(arg["type"]) + ", " + quote(arg["name"]) + " }"
 
             nil_is_variant = ""
             if "return_type" in method and method["return_type"] == "Variant":
@@ -622,10 +615,7 @@ def write_utility_functions(functions):
         print_indent("fi.is_vararg = " + str(func["is_vararg"]).lower() + ";")
         if 'arguments' in func:
             for arg in func["arguments"]:
-                if arg["type"] == "Variant":
-                    print_indent("fi.arguments.push_back({ " + get_variant_type(arg["type"]) + ", " + quote(arg["name"]) + ", PROPERTY_HINT_NONE, \"\", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });")
-                else:
-                    print_indent("fi.arguments.push_back({ " + get_variant_type(arg["type"]) + ", " + quote(arg["name"]) + " });")
+                print_indent("fi.arguments.push_back({ " + get_variant_type(arg["type"]) + ", " + quote(arg["name"]) + " });")
         print_indent(DB + "_functions[" + quote(func["name"]) + "] = fi;")
         print_indent(DB + "_function_names.push_back(" + quote(func["name"]) + ");")
         indent_pop()

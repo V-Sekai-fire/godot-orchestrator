@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,14 +35,13 @@ using namespace godot;
 ///
 class OScriptPlaceHolderInstance : public OScriptInstanceBase
 {
-    Ref<OScript> _script;                       //! The script this instance represents
-    Object* _owner;                             //! The owning object of the script
-    HashMap<StringName, Variant> _values;
-    List<PropertyInfo> _properties;
+    Ref<OScript> _script;  //! The script this instance represents
+    Object* _owner;        //! The owning object of the script
+    HashMap<StringName, Variant> _variables;
 
 public:
     /// Defines details about the script instance to be passed to Godot
-    static const OScriptInstanceInfo INSTANCE_INFO;
+    static const GDExtensionScriptInstanceInfo3 INSTANCE_INFO;
 
     /// Creates an OScriptPlaceHolderInstance
     /// @param p_script the orchestrator script this instance represents
@@ -50,7 +49,7 @@ public:
     OScriptPlaceHolderInstance(Ref<OScript> p_script, Object* p_owner);
 
     /// OScriptPlaceHolderInstance destructor
-    ~OScriptPlaceHolderInstance() override;
+    ~OScriptPlaceHolderInstance() override = default;
 
     //~ Begin OScriptInstanceBase Interface
     bool set(const StringName& p_name, const Variant& p_value, PropertyError* r_err) override;
@@ -72,8 +71,6 @@ public:
     void notification(int32_t p_what, bool p_reversed);
     void to_string(GDExtensionBool* r_is_valid, String* r_out);
     //~ End ScriptInstanceInfo2 Interface
-
-    void update(const List<PropertyInfo>& p_properties, const HashMap<StringName, Variant>& p_values);
 };
 
 #endif  // ORCHESTRATOR_SCRIPT_PLACEHOLDER_INSTANCE_H
