@@ -106,7 +106,7 @@ TARGET_COMPILE_OPTIONS(${PROJECT_NAME} PUBLIC
         $<${compiler_is_msvc}:
         /EHsc
         /utf-8
-		$<$<STREQUAL:${FLOAT_PRECISION},double>:REAL_T_IS_DOUBLE>
+		$<$<STREQUAL:${FLOAT_PRECISION},double>:/DREAL_T_IS_DOUBLE>
         /Zc:preprocessor
         /wd5054 # operator '|' deprecated between enumerations of different types
         $<$<CONFIG:Debug>:
@@ -150,7 +150,7 @@ endif()
 # Include directories for GDExtension library
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
-IF (NOT APPLE)
+IF (NOT APPLE AND NOT WIN32)
     # Linker options for the GDExtension library
     TARGET_LINK_OPTIONS(${PROJECT_NAME} PRIVATE
             $<$<NOT:${compiler_is_msvc}>:
@@ -159,6 +159,14 @@ IF (NOT APPLE)
             -Wl,-R,'$$ORIGIN'
             >
     )
+ELIF(WIN32 AND MINGW) 
+# Linker options for the GDExtension library
+TARGET_LINK_OPTIONS(${PROJECT_NAME} PRIVATE
+        $<$<NOT:${compiler_is_msvc}>:
+        -static-libgcc
+        -static-libstdc++
+        >
+)
 ENDIF ()
 
 if (AUTOFORMAT_SRC_ON_CONFIGURE MATCHES ON)
