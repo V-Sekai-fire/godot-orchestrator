@@ -52,7 +52,7 @@ public:
 
     /// Initializes a script instance.
     /// @param p_info the instance information structure to be initialized
-    static void init_instance(GDExtensionScriptInstanceInfo2& p_info);
+    static void init_instance(GDExtensionScriptInstanceInfo3& p_info);
 
     /// Sets a given property with the specified value.
     /// @param p_name property name

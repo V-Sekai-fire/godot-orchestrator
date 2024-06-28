@@ -25,6 +25,7 @@ class OScriptNodeInstantiateScene : public OScriptNode
     ORCHESTRATOR_NODE_CLASS(OScriptNodeInstantiateScene, OScriptNode);
 
 protected:
+    static void _bind_methods() {}
     String _scene;
 
     //~ Begin Wrapped Interface

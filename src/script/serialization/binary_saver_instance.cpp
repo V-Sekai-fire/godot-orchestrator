@@ -483,6 +483,21 @@ switch (p_value.get_type())
             }
             break;
         }
+        case Variant::PACKED_VECTOR4_ARRAY:
+        {
+            p_file->store_32(VARIANT_PACKED_VECTOR4_ARRAY);
+            PackedVector4Array array = p_value;
+            const int size = array.size();
+            p_file->store_32(size);
+            for (int i = 0; i < size; i++)
+            {
+                p_file->store_double(array[i].x);
+                p_file->store_double(array[i].y);
+                p_file->store_double(array[i].z);
+                p_file->store_double(array[i].w);
+            }
+            break;
+        }
         default:
         {
             ERR_FAIL_MSG(vformat("Unable to serialize property type %s with name %s", p_value.get_type(), p_hint.name));
@@ -727,11 +742,7 @@ Error OScriptBinaryResourceSaverInstance::save(const String& p_path, const Ref<R
                         property.value = missing_resource_properties[F.name];
                 }
 
-                #if GODOT_VERSION >= 0x040300
-                Variant default_value = ClassDB::class_get_default_property_value(E->get_class(), F.name);
-                #else
                 Variant default_value;
-                #endif
                 if (default_value.get_type() != Variant::NIL)
                 {
                     Variant result;
@@ -782,41 +793,12 @@ Error OScriptBinaryResourceSaverInstance::save(const String& p_path, const Ref<R
 
     for (const Ref<Resource>& resource : _saved_resources)
     {
-        #if GODOT_VERSION >= 0x040300
-        if (_is_resource_built_in(resource))
-        {
-            if (resource->get_scene_unique_id().is_empty())
-            {
-                String new_id;
-                while(true)
-                {
-                    new_id = _resource_get_class(resource) + "_" + Resource::generate_scene_unique_id();
-                    if (!used_unique_ids.has(new_id))
-                        break;
-                }
-                resource->set_scene_unique_id(new_id);
-                used_unique_ids.insert(new_id);
-            }
-
-            _save_unicode_string(file, "local://" + itos(res_index));
-            if (_takeover_paths)
-                resource->set_path(p_path + "::" + resource->get_scene_unique_id());
-            #ifdef TOOLS_ENABLED
-            resource->set_edited(false);
-            #endif
-        }
-        else
-        {
-            _save_unicode_string(file, resource->get_path());
-        }
-        #else
         // All internal resources are written as "local://[index]"
         // This allows renaming and moving of files without impacting the data.
         //
         // When the file is loaded, the "local://" prefix is replaced with the resource path,
         // and "::" to handle uniquness within the Editor.
         _save_unicode_string(file, "local://" + itos(res_index));
-        #endif
 
         // Save position reference and write placeholder, populating offset table later
         offsets.push_back(file->get_position());
