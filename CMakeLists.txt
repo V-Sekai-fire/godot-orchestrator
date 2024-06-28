@@ -159,7 +159,7 @@ IF (NOT APPLE AND NOT WIN32)
             -Wl,-R,'$$ORIGIN'
             >
     )
-ELIF(WIN32 AND MINGW) 
+ELSEIF (WIN32 AND MINGW) 
 # Linker options for the GDExtension library
 TARGET_LINK_OPTIONS(${PROJECT_NAME} PRIVATE
         $<$<NOT:${compiler_is_msvc}>:
