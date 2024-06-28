@@ -150,7 +150,7 @@ endif()
 # Include directories for GDExtension library
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
-IF (NOT APPLE AND NOT WIN32)
+IF (NOT APPLE)
     # Linker options for the GDExtension library
     TARGET_LINK_OPTIONS(${PROJECT_NAME} PRIVATE
             $<$<NOT:${compiler_is_msvc}>:
