@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,9 @@
 #ifndef ORCHESTRATOR_EDITOR_PLUGIN_H
 #define ORCHESTRATOR_EDITOR_PLUGIN_H
 
-#include "editor/build_output_panel.h"
-#include "editor/editor_cache.h"
-#include "editor/plugins/orchestrator_editor_debugger_plugin.h"
 #include "editor/theme/theme_cache.h"
 
 #include <godot_cpp/classes/config_file.hpp>
-#include <godot_cpp/classes/editor_export_plugin.hpp>
 #include <godot_cpp/classes/editor_inspector_plugin.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
@@ -32,7 +28,7 @@
 using namespace godot;
 
 /// Forward declarations
-class OrchestratorEditorPanel;
+class OrchestratorMainView;
 class OrchestratorWindowWrapper;
 
 /// The Orchestrator editor plug-in.
@@ -40,21 +36,16 @@ class OrchestratorPlugin : public EditorPlugin
 {
     GDCLASS(OrchestratorPlugin, EditorPlugin);
 
-    static void _bind_methods();
-
     static OrchestratorPlugin* _plugin;
 
-    String _last_editor;                                      //! Last editor
-    OrchestratorEditorPanel* _editor_panel{ nullptr };        //! Plugin's editor panel
+    EditorInterface& _editor;                                 //! Godot editor interface reference
+    OrchestratorMainView* _main_view{ nullptr };              //! Plugin's main view
     OrchestratorWindowWrapper* _window_wrapper{ nullptr };    //! Window wrapper
     Vector<Ref<EditorInspectorPlugin>> _inspector_plugins;
-    Vector<Ref<EditorExportPlugin>> _export_plugins;
     Ref<OrchestratorThemeCache> _theme_cache;
-    Ref<OrchestratorEditorCache> _editor_cache;               //! Script editor cache
-    OrchestratorBuildOutputPanel* _build_panel{ nullptr };    //! Build panel
-    #if GODOT_VERSION >= 0x040300
-    Ref<OrchestratorEditorDebuggerPlugin> _debugger_plugin;   //! Debugger plugin
-    #endif
+    
+protected:
+    static void _bind_methods();
 
 public:
     /// Constructor
@@ -98,18 +89,7 @@ public:
     /// @param p_metadata the metadata to save
     void save_metadata(const Ref<ConfigFile>& p_metadata);
 
-    /// Makes this plugin's view active, if it isn't already.
-    void make_active();
-
     Ref<OrchestratorThemeCache> get_theme_cache() { return _theme_cache; }
-    Ref<OrchestratorEditorCache> get_editor_cache() { return _editor_cache; }
-
-    /// Sets the build panel as active
-    void make_build_panel_active();
-
-    /// Get a reference to the build output panel
-    /// @return the build output panel, should never be <code>null</code>
-    OrchestratorBuildOutputPanel* get_build_panel() const { return _build_panel; }
 
     //~ Begin EditorPlugin interface
     String get_plugin_version() const;
@@ -125,7 +105,6 @@ public:
     bool _build() override;
     void _enable_plugin() override;
     void _disable_plugin() override;
-    PackedStringArray _get_breakpoints() const override;
     //~ End EditorPlugin interface
 
     /// Get the editor inspector plugin by type
@@ -142,10 +121,8 @@ public:
     }
 
 private:
-    void _focus_another_editor();
-
-    void _on_main_screen_changed(const String& p_name);
     void _on_window_visibility_changed(bool p_visible);
+    void _on_editor_restart();
 };
 
 #endif  // ORCHESTRATOR_EDITOR_PLUGIN_H
