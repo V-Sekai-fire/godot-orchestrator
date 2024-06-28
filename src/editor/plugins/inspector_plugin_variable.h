@@ -31,9 +31,11 @@ class OrchestratorEditorPropertyVariableClassification;
 class OrchestratorEditorInspectorPluginVariable : public EditorInspectorPlugin
 {
     GDCLASS(OrchestratorEditorInspectorPluginVariable, EditorInspectorPlugin);
-    static void _bind_methods() { }
 
     mutable OrchestratorEditorPropertyVariableClassification* _classification;
+
+protected:
+    static void _bind_methods() { }
 
 public:
     //~ Begin EditorInspectorPlugin Interface
@@ -51,12 +53,14 @@ public:
 class OrchestratorEditorPropertyVariableClassification : public EditorProperty
 {
     GDCLASS(OrchestratorEditorPropertyVariableClassification, EditorProperty);
-    static void _bind_methods() { }
 
     OrchestratorVariableTypeSearchDialog* _dialog{ nullptr };
     Button* _property{ nullptr };
     String _selected_name;
     String _base_type{ "Object" };
+    
+protected:
+    static void _bind_methods() { }
 
 public:
 
