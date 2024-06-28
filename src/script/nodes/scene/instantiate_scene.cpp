@@ -26,6 +26,9 @@ class OScriptNodeInstantiateSceneInstance : public OScriptNodeInstance
 {
     DECLARE_SCRIPT_NODE_INSTANCE(OScriptNodeInstantiateScene);
 
+protected:
+    static void _bind_methods() {};
+
 public:
     int step(OScriptExecutionContext& p_context) override
     {

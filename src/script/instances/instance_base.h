@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
 #ifndef ORCHESTRATOR_SCRIPT_INSTANCE_BASE_H
 #define ORCHESTRATOR_SCRIPT_INSTANCE_BASE_H
 
-#include "common/version.h"
-
 #include <godot_cpp/classes/script_extension.hpp>
 #include <godot_cpp/templates/list.hpp>
 #include <godot_cpp/templates/pair.hpp>
@@ -27,15 +25,6 @@ using namespace godot;
 
 /// Forward declarations
 class OScript;
-class OScriptLanguage;
-
-#if GODOT_VERSION >= 0x040300
-typedef GDExtensionScriptInstanceInfo3 OScriptInstanceInfo;
-#define GDEXTENSION_SCRIPT_INSTANCE_CREATE internal::gdextension_interface_script_instance_create3
-#else
-typedef GDExtensionScriptInstanceInfo2 OScriptInstanceInfo;
-#define GDEXTENSION_SCRIPT_INSTANCE_CREATE internal::gdextension_interface_script_instance_create2
-#endif
 
 /// A base class implementation for various OrchestratorScript instance types.
 ///
@@ -45,11 +34,6 @@ typedef GDExtensionScriptInstanceInfo2 OScriptInstanceInfo;
 ///
 class OScriptInstanceBase
 {
-    friend class OScript;
-    friend class OScriptLanguage;
-
-    void* _script_instance{ nullptr };          //! Godot script instance
-
 public:
     OScriptInstanceBase();
     virtual ~OScriptInstanceBase();
@@ -68,7 +52,7 @@ public:
 
     /// Initializes a script instance.
     /// @param p_info the instance information structure to be initialized
-    static void init_instance(OScriptInstanceInfo& p_info);
+    static void init_instance(GDExtensionScriptInstanceInfo3& p_info);
 
     /// Sets a given property with the specified value.
     /// @param p_name property name
@@ -98,16 +82,9 @@ public:
     /// @return property details
     virtual GDExtensionPropertyInfo* get_property_list(uint32_t* r_count) = 0;
 
-    #if GODOT_VERSION >= 0x040300
-    /// Releases the memory used by the property list.
-    /// @param p_list property list details to be deallocated
-    /// @param p_count the number of property infos to be freed
-    void free_property_list(const GDExtensionPropertyInfo* p_list, uint32_t p_count) const;
-    #else
     /// Releases the memory used by the property list.
     /// @param p_list property list details to be deallocated
     void free_property_list(const GDExtensionPropertyInfo* p_list) const;
-    #endif
 
     /// Returns the property type of a given property.
     /// @param p_name the property name
@@ -120,16 +97,9 @@ public:
     /// @return method details
     virtual GDExtensionMethodInfo* get_method_list(uint32_t* r_count) const;
 
-    #if GODOT_VERSION >= 0x040300
-    /// Releases the memory used by the method list.
-    /// @param p_list method list details to be deallocated
-    /// @param p_count the number of method info to be freed
-    void free_method_list(const GDExtensionMethodInfo* p_list, uint32_t p_count) const;
-    #else
     /// Releases the memory used by the method list.
     /// @param p_list method list details to be deallocated
     void free_method_list(const GDExtensionMethodInfo* p_list) const;
-    #endif
 
     /// Return whether the specified method is available in the script.
     /// @param p_name the method name

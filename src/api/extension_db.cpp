@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -454,7 +454,7 @@ namespace godot
 				ei.name = "KeyModifierMask";
 				ei.is_bitfield = true;
 				ei.values.push_back({ "KEY_CODE_MASK", "", 8388607 });
-				ei.values.push_back({ "KEY_MODIFIER_MASK", "", 2130706432 });
+				ei.values.push_back({ "KEY_MODIFIER_MASK", "", 532676608 });
 				ei.values.push_back({ "KEY_MASK_CMD_OR_CTRL", "", 16777216 });
 				ei.values.push_back({ "KEY_MASK_SHIFT", "", 33554432 });
 				ei.values.push_back({ "KEY_MASK_ALT", "", 67108864 });
@@ -694,18 +694,12 @@ namespace godot
 				ei.values.push_back({ "PROPERTY_HINT_INT_IS_OBJECTID", "", 29 });
 				ei.values.push_back({ "PROPERTY_HINT_INT_IS_POINTER", "", 30 });
 				ei.values.push_back({ "PROPERTY_HINT_ARRAY_TYPE", "", 31 });
-				ei.values.push_back({ "PROPERTY_HINT_DICTIONARY_TYPE", "", 38 });
 				ei.values.push_back({ "PROPERTY_HINT_LOCALE_ID", "", 32 });
 				ei.values.push_back({ "PROPERTY_HINT_LOCALIZABLE_STRING", "", 33 });
 				ei.values.push_back({ "PROPERTY_HINT_NODE_TYPE", "", 34 });
 				ei.values.push_back({ "PROPERTY_HINT_HIDE_QUATERNION_EDIT", "", 35 });
 				ei.values.push_back({ "PROPERTY_HINT_PASSWORD", "", 36 });
-				ei.values.push_back({ "PROPERTY_HINT_TOOL_BUTTON", "", 39 });
-				ei.values.push_back({ "PROPERTY_HINT_ONESHOT", "", 40 });
-				ei.values.push_back({ "PROPERTY_HINT_GROUP_ENABLE", "", 42 });
-				ei.values.push_back({ "PROPERTY_HINT_INPUT_NAME", "", 43 });
-				ei.values.push_back({ "PROPERTY_HINT_FILE_PATH", "", 44 });
-				ei.values.push_back({ "PROPERTY_HINT_MAX", "", 45 });
+				ei.values.push_back({ "PROPERTY_HINT_MAX", "", 38 });
 				_sanitize_enum(ei);
 				ExtensionDB::_singleton->_global_enums["PropertyHint"] = ei;
 				ExtensionDB::_singleton->_global_enum_names.push_back("PropertyHint");
@@ -765,7 +759,6 @@ namespace godot
 				ei.values.push_back({ "METHOD_FLAG_VARARG", "", 16 });
 				ei.values.push_back({ "METHOD_FLAG_STATIC", "", 32 });
 				ei.values.push_back({ "METHOD_FLAG_OBJECT_CORE", "", 64 });
-				ei.values.push_back({ "METHOD_FLAG_VIRTUAL_REQUIRED", "", 128 });
 				ei.values.push_back({ "METHOD_FLAGS_DEFAULT", "", 1 });
 				_sanitize_enum(ei);
 				ExtensionDB::_singleton->_global_enums["MethodFlags"] = ei;
@@ -1208,7 +1201,6 @@ namespace godot
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING, "String", Variant::STRING_NAME, "StringName", Variant::STRING });
 				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::STRING, "String", Variant::STRING_NAME, "StringName", Variant::BOOL });
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING, "String", Variant::NODE_PATH, "NodePath", Variant::STRING });
-				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING, "String", Variant::RID, "RID", Variant::STRING });
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING, "String", Variant::OBJECT, "Object", Variant::STRING });
 				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::STRING, "String", Variant::OBJECT, "Object", Variant::BOOL });
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING, "String", Variant::CALLABLE, "Callable", Variant::STRING });
@@ -1257,13 +1249,9 @@ namespace godot
 				type.methods.push_back(_make_method("is_subsequence_ofn", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::STRING, "text" } }));
 				type.methods.push_back(_make_method("bigrams", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_STRING_ARRAY, {  }));
 				type.methods.push_back(_make_method("similarity", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, { { Variant::STRING, "text" } }));
-				type.methods.push_back(_make_method("format", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::NIL, "values", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::STRING, "placeholder" } }));
+				type.methods.push_back(_make_method("format", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::NIL, "values" }, { Variant::STRING, "placeholder" } }));
 				type.methods.push_back(_make_method("replace", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "what" }, { Variant::STRING, "forwhat" } }));
 				type.methods.push_back(_make_method("replacen", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "what" }, { Variant::STRING, "forwhat" } }));
-				type.methods.push_back(_make_method("replace_char", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "key" }, { Variant::INT, "with" } }));
-				type.methods.push_back(_make_method("replace_chars", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "keys" }, { Variant::INT, "with" } }));
-				type.methods.push_back(_make_method("remove_char", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "what" } }));
-				type.methods.push_back(_make_method("remove_chars", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "chars" } }));
 				type.methods.push_back(_make_method("repeat", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "count" } }));
 				type.methods.push_back(_make_method("reverse", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("insert", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "position" }, { Variant::STRING, "what" } }));
@@ -1272,7 +1260,6 @@ namespace godot
 				type.methods.push_back(_make_method("to_camel_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("to_pascal_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("to_snake_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("to_kebab_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("split", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_STRING_ARRAY, { { Variant::STRING, "delimiter" }, { Variant::BOOL, "allow_empty" }, { Variant::INT, "maxsplit" } }));
 				type.methods.push_back(_make_method("rsplit", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_STRING_ARRAY, { { Variant::STRING, "delimiter" }, { Variant::BOOL, "allow_empty" }, { Variant::INT, "maxsplit" } }));
 				type.methods.push_back(_make_method("split_floats", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_FLOAT64_ARRAY, { { Variant::STRING, "delimiter" }, { Variant::BOOL, "allow_empty" } }));
@@ -1287,7 +1274,7 @@ namespace godot
 				type.methods.push_back(_make_method("rstrip", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "chars" } }));
 				type.methods.push_back(_make_method("get_extension", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("get_basename", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("path_join", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "path" } }));
+				type.methods.push_back(_make_method("path_join", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "file" } }));
 				type.methods.push_back(_make_method("unicode_at", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "at" } }));
 				type.methods.push_back(_make_method("indent", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "prefix" } }));
 				type.methods.push_back(_make_method("dedent", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
@@ -1310,14 +1297,11 @@ namespace godot
 				type.methods.push_back(_make_method("xml_unescape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("uri_encode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("uri_decode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("uri_file_decode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("c_escape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("c_unescape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("json_escape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("validate_node_name", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("validate_filename", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("is_valid_ascii_identifier", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
-				type.methods.push_back(_make_method("is_valid_unicode_identifier", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_valid_identifier", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_valid_int", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_valid_float", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
@@ -1339,14 +1323,13 @@ namespace godot
 				type.methods.push_back(_make_method("to_utf8_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
 				type.methods.push_back(_make_method("to_utf16_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
 				type.methods.push_back(_make_method("to_utf32_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_wchar_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_multibyte_char_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, { { Variant::STRING, "encoding" } }));
 				type.methods.push_back(_make_method("hex_decode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
+				type.methods.push_back(_make_method("to_wchar_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
 				type.methods.push_back(_make_method("num_scientific", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::FLOAT, "number" } }));
 				type.methods.push_back(_make_method("num", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::FLOAT, "number" }, { Variant::INT, "decimals" } }));
 				type.methods.push_back(_make_method("num_int64", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::INT, "number" }, { Variant::INT, "base" }, { Variant::BOOL, "capitalize_hex" } }));
 				type.methods.push_back(_make_method("num_uint64", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::INT, "number" }, { Variant::INT, "base" }, { Variant::BOOL, "capitalize_hex" } }));
-				type.methods.push_back(_make_method("chr", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::INT, "code" } }));
+				type.methods.push_back(_make_method("chr", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::INT, "char" } }));
 				type.methods.push_back(_make_method("humanize_size", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::STRING, { { Variant::INT, "size" } }));
 				ExtensionDB::_singleton->_builtin_types["String"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::STRING] = "String";
@@ -1388,6 +1371,8 @@ namespace godot
 				type.constructors.push_back({ { PropertyInfo(Variant::FLOAT, "x"), PropertyInfo(Variant::FLOAT, "y") } });
 				type.properties.push_back({ Variant::FLOAT, "x" });
 				type.properties.push_back({ Variant::FLOAT, "y" });
+				type.constants.push_back({ "AXIS_X", Variant::INT, 0 });
+				type.constants.push_back({ "AXIS_Y", Variant::INT, 1 });
 				type.constants.push_back({ "ZERO", Variant::VECTOR2, Vector2(0, 0) });
 				type.constants.push_back({ "ONE", Variant::VECTOR2, Vector2(1, 1) });
 				type.constants.push_back({ "INF", Variant::VECTOR2, Vector2(INFINITY, INFINITY) });
@@ -1485,6 +1470,8 @@ namespace godot
 				type.constructors.push_back({ { PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "y") } });
 				type.properties.push_back({ Variant::INT, "x" });
 				type.properties.push_back({ Variant::INT, "y" });
+				type.constants.push_back({ "AXIS_X", Variant::INT, 0 });
+				type.constants.push_back({ "AXIS_Y", Variant::INT, 1 });
 				type.constants.push_back({ "ZERO", Variant::VECTOR2I, Vector2i(0, 0) });
 				type.constants.push_back({ "ONE", Variant::VECTOR2I, Vector2i(1, 1) });
 				type.constants.push_back({ "MIN", Variant::VECTOR2I, Vector2i(-2147483648, -2147483648) });
@@ -1550,7 +1537,6 @@ namespace godot
 				type.methods.push_back(_make_method("intersection", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::RECT2, { { Variant::RECT2, "b" } }));
 				type.methods.push_back(_make_method("merge", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::RECT2, { { Variant::RECT2, "b" } }));
 				type.methods.push_back(_make_method("expand", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::RECT2, { { Variant::VECTOR2, "to" } }));
-				type.methods.push_back(_make_method("get_support", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR2, { { Variant::VECTOR2, "direction" } }));
 				type.methods.push_back(_make_method("grow", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::RECT2, { { Variant::FLOAT, "amount" } }));
 				type.methods.push_back(_make_method("grow_side", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::RECT2, { { Variant::INT, "side" }, { Variant::FLOAT, "amount" } }));
 				type.methods.push_back(_make_method("grow_individual", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::RECT2, { { Variant::FLOAT, "left" }, { Variant::FLOAT, "top" }, { Variant::FLOAT, "right" }, { Variant::FLOAT, "bottom" } }));
@@ -1637,6 +1623,9 @@ namespace godot
 				type.properties.push_back({ Variant::FLOAT, "x" });
 				type.properties.push_back({ Variant::FLOAT, "y" });
 				type.properties.push_back({ Variant::FLOAT, "z" });
+				type.constants.push_back({ "AXIS_X", Variant::INT, 0 });
+				type.constants.push_back({ "AXIS_Y", Variant::INT, 1 });
+				type.constants.push_back({ "AXIS_Z", Variant::INT, 2 });
 				type.constants.push_back({ "ZERO", Variant::VECTOR3, Vector3(0, 0, 0) });
 				type.constants.push_back({ "ONE", Variant::VECTOR3, Vector3(1, 1, 1) });
 				type.constants.push_back({ "INF", Variant::VECTOR3, Vector3(INFINITY, INFINITY, INFINITY) });
@@ -1743,6 +1732,9 @@ namespace godot
 				type.properties.push_back({ Variant::INT, "x" });
 				type.properties.push_back({ Variant::INT, "y" });
 				type.properties.push_back({ Variant::INT, "z" });
+				type.constants.push_back({ "AXIS_X", Variant::INT, 0 });
+				type.constants.push_back({ "AXIS_Y", Variant::INT, 1 });
+				type.constants.push_back({ "AXIS_Z", Variant::INT, 2 });
 				type.constants.push_back({ "ZERO", Variant::VECTOR3I, Vector3i(0, 0, 0) });
 				type.constants.push_back({ "ONE", Variant::VECTOR3I, Vector3i(1, 1, 1) });
 				type.constants.push_back({ "MIN", Variant::VECTOR3I, Vector3i(-2147483648, -2147483648, -2147483648) });
@@ -1871,6 +1863,10 @@ namespace godot
 				type.properties.push_back({ Variant::FLOAT, "y" });
 				type.properties.push_back({ Variant::FLOAT, "z" });
 				type.properties.push_back({ Variant::FLOAT, "w" });
+				type.constants.push_back({ "AXIS_X", Variant::INT, 0 });
+				type.constants.push_back({ "AXIS_Y", Variant::INT, 1 });
+				type.constants.push_back({ "AXIS_Z", Variant::INT, 2 });
+				type.constants.push_back({ "AXIS_W", Variant::INT, 3 });
 				type.constants.push_back({ "ZERO", Variant::VECTOR4, Vector4(0, 0, 0, 0) });
 				type.constants.push_back({ "ONE", Variant::VECTOR4, Vector4(1, 1, 1, 1) });
 				type.constants.push_back({ "INF", Variant::VECTOR4, Vector4(INFINITY, INFINITY, INFINITY, INFINITY) });
@@ -1950,6 +1946,10 @@ namespace godot
 				type.properties.push_back({ Variant::INT, "y" });
 				type.properties.push_back({ Variant::INT, "z" });
 				type.properties.push_back({ Variant::INT, "w" });
+				type.constants.push_back({ "AXIS_X", Variant::INT, 0 });
+				type.constants.push_back({ "AXIS_Y", Variant::INT, 1 });
+				type.constants.push_back({ "AXIS_Z", Variant::INT, 2 });
+				type.constants.push_back({ "AXIS_W", Variant::INT, 3 });
 				type.constants.push_back({ "ZERO", Variant::VECTOR4I, Vector4i(0, 0, 0, 0) });
 				type.constants.push_back({ "ONE", Variant::VECTOR4I, Vector4i(1, 1, 1, 1) });
 				type.constants.push_back({ "MIN", Variant::VECTOR4I, Vector4i(-2147483648, -2147483648, -2147483648, -2147483648) });
@@ -2117,7 +2117,7 @@ namespace godot
 				type.methods.push_back(_make_method("merge", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::AABB, { { Variant::AABB, "with" } }));
 				type.methods.push_back(_make_method("expand", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::AABB, { { Variant::VECTOR3, "to_point" } }));
 				type.methods.push_back(_make_method("grow", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::AABB, { { Variant::FLOAT, "by" } }));
-				type.methods.push_back(_make_method("get_support", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR3, { { Variant::VECTOR3, "direction" } }));
+				type.methods.push_back(_make_method("get_support", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR3, { { Variant::VECTOR3, "dir" } }));
 				type.methods.push_back(_make_method("get_longest_axis", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR3, {  }));
 				type.methods.push_back(_make_method("get_longest_axis_index", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("get_longest_axis_size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, {  }));
@@ -2169,7 +2169,6 @@ namespace godot
 				type.methods.push_back(_make_method("determinant", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, {  }));
 				type.methods.push_back(_make_method("rotated", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BASIS, { { Variant::VECTOR3, "axis" }, { Variant::FLOAT, "angle" } }));
 				type.methods.push_back(_make_method("scaled", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BASIS, { { Variant::VECTOR3, "scale" } }));
-				type.methods.push_back(_make_method("scaled_local", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BASIS, { { Variant::VECTOR3, "scale" } }));
 				type.methods.push_back(_make_method("get_scale", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR3, {  }));
 				type.methods.push_back(_make_method("get_euler", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR3, { { Variant::INT, "order" } }));
 				type.methods.push_back(_make_method("tdotx", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, { { Variant::VECTOR3, "with" } }));
@@ -2262,6 +2261,12 @@ namespace godot
 				type.properties.push_back({ Variant::VECTOR4, "y" });
 				type.properties.push_back({ Variant::VECTOR4, "z" });
 				type.properties.push_back({ Variant::VECTOR4, "w" });
+				type.constants.push_back({ "PLANE_NEAR", Variant::INT, 0 });
+				type.constants.push_back({ "PLANE_FAR", Variant::INT, 1 });
+				type.constants.push_back({ "PLANE_LEFT", Variant::INT, 2 });
+				type.constants.push_back({ "PLANE_TOP", Variant::INT, 3 });
+				type.constants.push_back({ "PLANE_RIGHT", Variant::INT, 4 });
+				type.constants.push_back({ "PLANE_BOTTOM", Variant::INT, 5 });
 				type.constants.push_back({ "IDENTITY", Variant::PROJECTION, Projection(Vector4(1, 0, 0, 0), Vector4(0, 1, 0, 0), Vector4(0, 0, 1, 0), Vector4(0, 0, 0, 1)) });
 				type.constants.push_back({ "ZERO", Variant::PROJECTION, Projection(Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)) });
 				type.enums.push_back({ "Planes", false, { { "PLANE_NEAR", "", 0 }, { "PLANE_FAR", "", 1 }, { "PLANE_LEFT", "", 2 }, { "PLANE_TOP", "", 3 }, { "PLANE_RIGHT", "", 4 }, { "PLANE_BOTTOM", "", 5 } } });
@@ -2339,155 +2344,152 @@ namespace godot
 				type.properties.push_back({ Variant::FLOAT, "h" });
 				type.properties.push_back({ Variant::FLOAT, "s" });
 				type.properties.push_back({ Variant::FLOAT, "v" });
-				type.properties.push_back({ Variant::FLOAT, "ok_hsl_h" });
-				type.properties.push_back({ Variant::FLOAT, "ok_hsl_s" });
-				type.properties.push_back({ Variant::FLOAT, "ok_hsl_l" });
-				type.constants.push_back({ "ALICE_BLUE", Variant::COLOR, Color(0.9411765, 0.972549, 1, 1) });
-				type.constants.push_back({ "ANTIQUE_WHITE", Variant::COLOR, Color(0.98039216, 0.92156863, 0.84313726, 1) });
+				type.constants.push_back({ "ALICE_BLUE", Variant::COLOR, Color(0.941176, 0.972549, 1, 1) });
+				type.constants.push_back({ "ANTIQUE_WHITE", Variant::COLOR, Color(0.980392, 0.921569, 0.843137, 1) });
 				type.constants.push_back({ "AQUA", Variant::COLOR, Color(0, 1, 1, 1) });
-				type.constants.push_back({ "AQUAMARINE", Variant::COLOR, Color(0.49803922, 1, 0.83137256, 1) });
-				type.constants.push_back({ "AZURE", Variant::COLOR, Color(0.9411765, 1, 1, 1) });
-				type.constants.push_back({ "BEIGE", Variant::COLOR, Color(0.9607843, 0.9607843, 0.8627451, 1) });
-				type.constants.push_back({ "BISQUE", Variant::COLOR, Color(1, 0.89411765, 0.76862746, 1) });
+				type.constants.push_back({ "AQUAMARINE", Variant::COLOR, Color(0.498039, 1, 0.831373, 1) });
+				type.constants.push_back({ "AZURE", Variant::COLOR, Color(0.941176, 1, 1, 1) });
+				type.constants.push_back({ "BEIGE", Variant::COLOR, Color(0.960784, 0.960784, 0.862745, 1) });
+				type.constants.push_back({ "BISQUE", Variant::COLOR, Color(1, 0.894118, 0.768627, 1) });
 				type.constants.push_back({ "BLACK", Variant::COLOR, Color(0, 0, 0, 1) });
-				type.constants.push_back({ "BLANCHED_ALMOND", Variant::COLOR, Color(1, 0.92156863, 0.8039216, 1) });
+				type.constants.push_back({ "BLANCHED_ALMOND", Variant::COLOR, Color(1, 0.921569, 0.803922, 1) });
 				type.constants.push_back({ "BLUE", Variant::COLOR, Color(0, 0, 1, 1) });
-				type.constants.push_back({ "BLUE_VIOLET", Variant::COLOR, Color(0.5411765, 0.16862746, 0.8862745, 1) });
-				type.constants.push_back({ "BROWN", Variant::COLOR, Color(0.64705884, 0.16470589, 0.16470589, 1) });
-				type.constants.push_back({ "BURLYWOOD", Variant::COLOR, Color(0.87058824, 0.72156864, 0.5294118, 1) });
-				type.constants.push_back({ "CADET_BLUE", Variant::COLOR, Color(0.37254903, 0.61960787, 0.627451, 1) });
-				type.constants.push_back({ "CHARTREUSE", Variant::COLOR, Color(0.49803922, 1, 0, 1) });
-				type.constants.push_back({ "CHOCOLATE", Variant::COLOR, Color(0.8235294, 0.4117647, 0.11764706, 1) });
-				type.constants.push_back({ "CORAL", Variant::COLOR, Color(1, 0.49803922, 0.3137255, 1) });
-				type.constants.push_back({ "CORNFLOWER_BLUE", Variant::COLOR, Color(0.39215687, 0.58431375, 0.92941177, 1) });
-				type.constants.push_back({ "CORNSILK", Variant::COLOR, Color(1, 0.972549, 0.8627451, 1) });
-				type.constants.push_back({ "CRIMSON", Variant::COLOR, Color(0.8627451, 0.078431375, 0.23529412, 1) });
+				type.constants.push_back({ "BLUE_VIOLET", Variant::COLOR, Color(0.541176, 0.168627, 0.886275, 1) });
+				type.constants.push_back({ "BROWN", Variant::COLOR, Color(0.647059, 0.164706, 0.164706, 1) });
+				type.constants.push_back({ "BURLYWOOD", Variant::COLOR, Color(0.870588, 0.721569, 0.529412, 1) });
+				type.constants.push_back({ "CADET_BLUE", Variant::COLOR, Color(0.372549, 0.619608, 0.627451, 1) });
+				type.constants.push_back({ "CHARTREUSE", Variant::COLOR, Color(0.498039, 1, 0, 1) });
+				type.constants.push_back({ "CHOCOLATE", Variant::COLOR, Color(0.823529, 0.411765, 0.117647, 1) });
+				type.constants.push_back({ "CORAL", Variant::COLOR, Color(1, 0.498039, 0.313726, 1) });
+				type.constants.push_back({ "CORNFLOWER_BLUE", Variant::COLOR, Color(0.392157, 0.584314, 0.929412, 1) });
+				type.constants.push_back({ "CORNSILK", Variant::COLOR, Color(1, 0.972549, 0.862745, 1) });
+				type.constants.push_back({ "CRIMSON", Variant::COLOR, Color(0.862745, 0.0784314, 0.235294, 1) });
 				type.constants.push_back({ "CYAN", Variant::COLOR, Color(0, 1, 1, 1) });
-				type.constants.push_back({ "DARK_BLUE", Variant::COLOR, Color(0, 0, 0.54509807, 1) });
-				type.constants.push_back({ "DARK_CYAN", Variant::COLOR, Color(0, 0.54509807, 0.54509807, 1) });
-				type.constants.push_back({ "DARK_GOLDENROD", Variant::COLOR, Color(0.72156864, 0.5254902, 0.043137256, 1) });
-				type.constants.push_back({ "DARK_GRAY", Variant::COLOR, Color(0.6627451, 0.6627451, 0.6627451, 1) });
-				type.constants.push_back({ "DARK_GREEN", Variant::COLOR, Color(0, 0.39215687, 0, 1) });
-				type.constants.push_back({ "DARK_KHAKI", Variant::COLOR, Color(0.7411765, 0.7176471, 0.41960785, 1) });
-				type.constants.push_back({ "DARK_MAGENTA", Variant::COLOR, Color(0.54509807, 0, 0.54509807, 1) });
-				type.constants.push_back({ "DARK_OLIVE_GREEN", Variant::COLOR, Color(0.33333334, 0.41960785, 0.18431373, 1) });
-				type.constants.push_back({ "DARK_ORANGE", Variant::COLOR, Color(1, 0.54901963, 0, 1) });
-				type.constants.push_back({ "DARK_ORCHID", Variant::COLOR, Color(0.6, 0.19607843, 0.8, 1) });
-				type.constants.push_back({ "DARK_RED", Variant::COLOR, Color(0.54509807, 0, 0, 1) });
-				type.constants.push_back({ "DARK_SALMON", Variant::COLOR, Color(0.9137255, 0.5882353, 0.47843137, 1) });
-				type.constants.push_back({ "DARK_SEA_GREEN", Variant::COLOR, Color(0.56078434, 0.7372549, 0.56078434, 1) });
-				type.constants.push_back({ "DARK_SLATE_BLUE", Variant::COLOR, Color(0.28235295, 0.23921569, 0.54509807, 1) });
-				type.constants.push_back({ "DARK_SLATE_GRAY", Variant::COLOR, Color(0.18431373, 0.30980393, 0.30980393, 1) });
-				type.constants.push_back({ "DARK_TURQUOISE", Variant::COLOR, Color(0, 0.80784315, 0.81960785, 1) });
-				type.constants.push_back({ "DARK_VIOLET", Variant::COLOR, Color(0.5803922, 0, 0.827451, 1) });
-				type.constants.push_back({ "DEEP_PINK", Variant::COLOR, Color(1, 0.078431375, 0.5764706, 1) });
-				type.constants.push_back({ "DEEP_SKY_BLUE", Variant::COLOR, Color(0, 0.7490196, 1, 1) });
-				type.constants.push_back({ "DIM_GRAY", Variant::COLOR, Color(0.4117647, 0.4117647, 0.4117647, 1) });
-				type.constants.push_back({ "DODGER_BLUE", Variant::COLOR, Color(0.11764706, 0.5647059, 1, 1) });
-				type.constants.push_back({ "FIREBRICK", Variant::COLOR, Color(0.69803923, 0.13333334, 0.13333334, 1) });
-				type.constants.push_back({ "FLORAL_WHITE", Variant::COLOR, Color(1, 0.98039216, 0.9411765, 1) });
-				type.constants.push_back({ "FOREST_GREEN", Variant::COLOR, Color(0.13333334, 0.54509807, 0.13333334, 1) });
+				type.constants.push_back({ "DARK_BLUE", Variant::COLOR, Color(0, 0, 0.545098, 1) });
+				type.constants.push_back({ "DARK_CYAN", Variant::COLOR, Color(0, 0.545098, 0.545098, 1) });
+				type.constants.push_back({ "DARK_GOLDENROD", Variant::COLOR, Color(0.721569, 0.52549, 0.0431373, 1) });
+				type.constants.push_back({ "DARK_GRAY", Variant::COLOR, Color(0.662745, 0.662745, 0.662745, 1) });
+				type.constants.push_back({ "DARK_GREEN", Variant::COLOR, Color(0, 0.392157, 0, 1) });
+				type.constants.push_back({ "DARK_KHAKI", Variant::COLOR, Color(0.741176, 0.717647, 0.419608, 1) });
+				type.constants.push_back({ "DARK_MAGENTA", Variant::COLOR, Color(0.545098, 0, 0.545098, 1) });
+				type.constants.push_back({ "DARK_OLIVE_GREEN", Variant::COLOR, Color(0.333333, 0.419608, 0.184314, 1) });
+				type.constants.push_back({ "DARK_ORANGE", Variant::COLOR, Color(1, 0.54902, 0, 1) });
+				type.constants.push_back({ "DARK_ORCHID", Variant::COLOR, Color(0.6, 0.196078, 0.8, 1) });
+				type.constants.push_back({ "DARK_RED", Variant::COLOR, Color(0.545098, 0, 0, 1) });
+				type.constants.push_back({ "DARK_SALMON", Variant::COLOR, Color(0.913725, 0.588235, 0.478431, 1) });
+				type.constants.push_back({ "DARK_SEA_GREEN", Variant::COLOR, Color(0.560784, 0.737255, 0.560784, 1) });
+				type.constants.push_back({ "DARK_SLATE_BLUE", Variant::COLOR, Color(0.282353, 0.239216, 0.545098, 1) });
+				type.constants.push_back({ "DARK_SLATE_GRAY", Variant::COLOR, Color(0.184314, 0.309804, 0.309804, 1) });
+				type.constants.push_back({ "DARK_TURQUOISE", Variant::COLOR, Color(0, 0.807843, 0.819608, 1) });
+				type.constants.push_back({ "DARK_VIOLET", Variant::COLOR, Color(0.580392, 0, 0.827451, 1) });
+				type.constants.push_back({ "DEEP_PINK", Variant::COLOR, Color(1, 0.0784314, 0.576471, 1) });
+				type.constants.push_back({ "DEEP_SKY_BLUE", Variant::COLOR, Color(0, 0.74902, 1, 1) });
+				type.constants.push_back({ "DIM_GRAY", Variant::COLOR, Color(0.411765, 0.411765, 0.411765, 1) });
+				type.constants.push_back({ "DODGER_BLUE", Variant::COLOR, Color(0.117647, 0.564706, 1, 1) });
+				type.constants.push_back({ "FIREBRICK", Variant::COLOR, Color(0.698039, 0.133333, 0.133333, 1) });
+				type.constants.push_back({ "FLORAL_WHITE", Variant::COLOR, Color(1, 0.980392, 0.941176, 1) });
+				type.constants.push_back({ "FOREST_GREEN", Variant::COLOR, Color(0.133333, 0.545098, 0.133333, 1) });
 				type.constants.push_back({ "FUCHSIA", Variant::COLOR, Color(1, 0, 1, 1) });
-				type.constants.push_back({ "GAINSBORO", Variant::COLOR, Color(0.8627451, 0.8627451, 0.8627451, 1) });
+				type.constants.push_back({ "GAINSBORO", Variant::COLOR, Color(0.862745, 0.862745, 0.862745, 1) });
 				type.constants.push_back({ "GHOST_WHITE", Variant::COLOR, Color(0.972549, 0.972549, 1, 1) });
-				type.constants.push_back({ "GOLD", Variant::COLOR, Color(1, 0.84313726, 0, 1) });
-				type.constants.push_back({ "GOLDENROD", Variant::COLOR, Color(0.85490197, 0.64705884, 0.1254902, 1) });
-				type.constants.push_back({ "GRAY", Variant::COLOR, Color(0.74509805, 0.74509805, 0.74509805, 1) });
+				type.constants.push_back({ "GOLD", Variant::COLOR, Color(1, 0.843137, 0, 1) });
+				type.constants.push_back({ "GOLDENROD", Variant::COLOR, Color(0.854902, 0.647059, 0.12549, 1) });
+				type.constants.push_back({ "GRAY", Variant::COLOR, Color(0.745098, 0.745098, 0.745098, 1) });
 				type.constants.push_back({ "GREEN", Variant::COLOR, Color(0, 1, 0, 1) });
-				type.constants.push_back({ "GREEN_YELLOW", Variant::COLOR, Color(0.6784314, 1, 0.18431373, 1) });
-				type.constants.push_back({ "HONEYDEW", Variant::COLOR, Color(0.9411765, 1, 0.9411765, 1) });
-				type.constants.push_back({ "HOT_PINK", Variant::COLOR, Color(1, 0.4117647, 0.7058824, 1) });
-				type.constants.push_back({ "INDIAN_RED", Variant::COLOR, Color(0.8039216, 0.36078432, 0.36078432, 1) });
-				type.constants.push_back({ "INDIGO", Variant::COLOR, Color(0.29411766, 0, 0.50980395, 1) });
-				type.constants.push_back({ "IVORY", Variant::COLOR, Color(1, 1, 0.9411765, 1) });
-				type.constants.push_back({ "KHAKI", Variant::COLOR, Color(0.9411765, 0.9019608, 0.54901963, 1) });
-				type.constants.push_back({ "LAVENDER", Variant::COLOR, Color(0.9019608, 0.9019608, 0.98039216, 1) });
-				type.constants.push_back({ "LAVENDER_BLUSH", Variant::COLOR, Color(1, 0.9411765, 0.9607843, 1) });
-				type.constants.push_back({ "LAWN_GREEN", Variant::COLOR, Color(0.4862745, 0.9882353, 0, 1) });
-				type.constants.push_back({ "LEMON_CHIFFON", Variant::COLOR, Color(1, 0.98039216, 0.8039216, 1) });
-				type.constants.push_back({ "LIGHT_BLUE", Variant::COLOR, Color(0.6784314, 0.84705883, 0.9019608, 1) });
-				type.constants.push_back({ "LIGHT_CORAL", Variant::COLOR, Color(0.9411765, 0.5019608, 0.5019608, 1) });
-				type.constants.push_back({ "LIGHT_CYAN", Variant::COLOR, Color(0.8784314, 1, 1, 1) });
-				type.constants.push_back({ "LIGHT_GOLDENROD", Variant::COLOR, Color(0.98039216, 0.98039216, 0.8235294, 1) });
+				type.constants.push_back({ "GREEN_YELLOW", Variant::COLOR, Color(0.678431, 1, 0.184314, 1) });
+				type.constants.push_back({ "HONEYDEW", Variant::COLOR, Color(0.941176, 1, 0.941176, 1) });
+				type.constants.push_back({ "HOT_PINK", Variant::COLOR, Color(1, 0.411765, 0.705882, 1) });
+				type.constants.push_back({ "INDIAN_RED", Variant::COLOR, Color(0.803922, 0.360784, 0.360784, 1) });
+				type.constants.push_back({ "INDIGO", Variant::COLOR, Color(0.294118, 0, 0.509804, 1) });
+				type.constants.push_back({ "IVORY", Variant::COLOR, Color(1, 1, 0.941176, 1) });
+				type.constants.push_back({ "KHAKI", Variant::COLOR, Color(0.941176, 0.901961, 0.54902, 1) });
+				type.constants.push_back({ "LAVENDER", Variant::COLOR, Color(0.901961, 0.901961, 0.980392, 1) });
+				type.constants.push_back({ "LAVENDER_BLUSH", Variant::COLOR, Color(1, 0.941176, 0.960784, 1) });
+				type.constants.push_back({ "LAWN_GREEN", Variant::COLOR, Color(0.486275, 0.988235, 0, 1) });
+				type.constants.push_back({ "LEMON_CHIFFON", Variant::COLOR, Color(1, 0.980392, 0.803922, 1) });
+				type.constants.push_back({ "LIGHT_BLUE", Variant::COLOR, Color(0.678431, 0.847059, 0.901961, 1) });
+				type.constants.push_back({ "LIGHT_CORAL", Variant::COLOR, Color(0.941176, 0.501961, 0.501961, 1) });
+				type.constants.push_back({ "LIGHT_CYAN", Variant::COLOR, Color(0.878431, 1, 1, 1) });
+				type.constants.push_back({ "LIGHT_GOLDENROD", Variant::COLOR, Color(0.980392, 0.980392, 0.823529, 1) });
 				type.constants.push_back({ "LIGHT_GRAY", Variant::COLOR, Color(0.827451, 0.827451, 0.827451, 1) });
-				type.constants.push_back({ "LIGHT_GREEN", Variant::COLOR, Color(0.5647059, 0.93333334, 0.5647059, 1) });
-				type.constants.push_back({ "LIGHT_PINK", Variant::COLOR, Color(1, 0.7137255, 0.75686276, 1) });
-				type.constants.push_back({ "LIGHT_SALMON", Variant::COLOR, Color(1, 0.627451, 0.47843137, 1) });
-				type.constants.push_back({ "LIGHT_SEA_GREEN", Variant::COLOR, Color(0.1254902, 0.69803923, 0.6666667, 1) });
-				type.constants.push_back({ "LIGHT_SKY_BLUE", Variant::COLOR, Color(0.5294118, 0.80784315, 0.98039216, 1) });
-				type.constants.push_back({ "LIGHT_SLATE_GRAY", Variant::COLOR, Color(0.46666667, 0.53333336, 0.6, 1) });
-				type.constants.push_back({ "LIGHT_STEEL_BLUE", Variant::COLOR, Color(0.6901961, 0.76862746, 0.87058824, 1) });
-				type.constants.push_back({ "LIGHT_YELLOW", Variant::COLOR, Color(1, 1, 0.8784314, 1) });
+				type.constants.push_back({ "LIGHT_GREEN", Variant::COLOR, Color(0.564706, 0.933333, 0.564706, 1) });
+				type.constants.push_back({ "LIGHT_PINK", Variant::COLOR, Color(1, 0.713726, 0.756863, 1) });
+				type.constants.push_back({ "LIGHT_SALMON", Variant::COLOR, Color(1, 0.627451, 0.478431, 1) });
+				type.constants.push_back({ "LIGHT_SEA_GREEN", Variant::COLOR, Color(0.12549, 0.698039, 0.666667, 1) });
+				type.constants.push_back({ "LIGHT_SKY_BLUE", Variant::COLOR, Color(0.529412, 0.807843, 0.980392, 1) });
+				type.constants.push_back({ "LIGHT_SLATE_GRAY", Variant::COLOR, Color(0.466667, 0.533333, 0.6, 1) });
+				type.constants.push_back({ "LIGHT_STEEL_BLUE", Variant::COLOR, Color(0.690196, 0.768627, 0.870588, 1) });
+				type.constants.push_back({ "LIGHT_YELLOW", Variant::COLOR, Color(1, 1, 0.878431, 1) });
 				type.constants.push_back({ "LIME", Variant::COLOR, Color(0, 1, 0, 1) });
-				type.constants.push_back({ "LIME_GREEN", Variant::COLOR, Color(0.19607843, 0.8039216, 0.19607843, 1) });
-				type.constants.push_back({ "LINEN", Variant::COLOR, Color(0.98039216, 0.9411765, 0.9019608, 1) });
+				type.constants.push_back({ "LIME_GREEN", Variant::COLOR, Color(0.196078, 0.803922, 0.196078, 1) });
+				type.constants.push_back({ "LINEN", Variant::COLOR, Color(0.980392, 0.941176, 0.901961, 1) });
 				type.constants.push_back({ "MAGENTA", Variant::COLOR, Color(1, 0, 1, 1) });
-				type.constants.push_back({ "MAROON", Variant::COLOR, Color(0.6901961, 0.1882353, 0.3764706, 1) });
-				type.constants.push_back({ "MEDIUM_AQUAMARINE", Variant::COLOR, Color(0.4, 0.8039216, 0.6666667, 1) });
-				type.constants.push_back({ "MEDIUM_BLUE", Variant::COLOR, Color(0, 0, 0.8039216, 1) });
-				type.constants.push_back({ "MEDIUM_ORCHID", Variant::COLOR, Color(0.7294118, 0.33333334, 0.827451, 1) });
-				type.constants.push_back({ "MEDIUM_PURPLE", Variant::COLOR, Color(0.5764706, 0.4392157, 0.85882354, 1) });
-				type.constants.push_back({ "MEDIUM_SEA_GREEN", Variant::COLOR, Color(0.23529412, 0.7019608, 0.44313726, 1) });
-				type.constants.push_back({ "MEDIUM_SLATE_BLUE", Variant::COLOR, Color(0.48235294, 0.40784314, 0.93333334, 1) });
-				type.constants.push_back({ "MEDIUM_SPRING_GREEN", Variant::COLOR, Color(0, 0.98039216, 0.6039216, 1) });
-				type.constants.push_back({ "MEDIUM_TURQUOISE", Variant::COLOR, Color(0.28235295, 0.81960785, 0.8, 1) });
-				type.constants.push_back({ "MEDIUM_VIOLET_RED", Variant::COLOR, Color(0.78039217, 0.08235294, 0.52156866, 1) });
-				type.constants.push_back({ "MIDNIGHT_BLUE", Variant::COLOR, Color(0.09803922, 0.09803922, 0.4392157, 1) });
-				type.constants.push_back({ "MINT_CREAM", Variant::COLOR, Color(0.9607843, 1, 0.98039216, 1) });
-				type.constants.push_back({ "MISTY_ROSE", Variant::COLOR, Color(1, 0.89411765, 0.88235295, 1) });
-				type.constants.push_back({ "MOCCASIN", Variant::COLOR, Color(1, 0.89411765, 0.70980394, 1) });
-				type.constants.push_back({ "NAVAJO_WHITE", Variant::COLOR, Color(1, 0.87058824, 0.6784314, 1) });
-				type.constants.push_back({ "NAVY_BLUE", Variant::COLOR, Color(0, 0, 0.5019608, 1) });
-				type.constants.push_back({ "OLD_LACE", Variant::COLOR, Color(0.99215686, 0.9607843, 0.9019608, 1) });
-				type.constants.push_back({ "OLIVE", Variant::COLOR, Color(0.5019608, 0.5019608, 0, 1) });
-				type.constants.push_back({ "OLIVE_DRAB", Variant::COLOR, Color(0.41960785, 0.5568628, 0.13725491, 1) });
-				type.constants.push_back({ "ORANGE", Variant::COLOR, Color(1, 0.64705884, 0, 1) });
-				type.constants.push_back({ "ORANGE_RED", Variant::COLOR, Color(1, 0.27058825, 0, 1) });
-				type.constants.push_back({ "ORCHID", Variant::COLOR, Color(0.85490197, 0.4392157, 0.8392157, 1) });
-				type.constants.push_back({ "PALE_GOLDENROD", Variant::COLOR, Color(0.93333334, 0.9098039, 0.6666667, 1) });
-				type.constants.push_back({ "PALE_GREEN", Variant::COLOR, Color(0.59607846, 0.9843137, 0.59607846, 1) });
-				type.constants.push_back({ "PALE_TURQUOISE", Variant::COLOR, Color(0.6862745, 0.93333334, 0.93333334, 1) });
-				type.constants.push_back({ "PALE_VIOLET_RED", Variant::COLOR, Color(0.85882354, 0.4392157, 0.5764706, 1) });
-				type.constants.push_back({ "PAPAYA_WHIP", Variant::COLOR, Color(1, 0.9372549, 0.8352941, 1) });
-				type.constants.push_back({ "PEACH_PUFF", Variant::COLOR, Color(1, 0.85490197, 0.7254902, 1) });
-				type.constants.push_back({ "PERU", Variant::COLOR, Color(0.8039216, 0.52156866, 0.24705882, 1) });
-				type.constants.push_back({ "PINK", Variant::COLOR, Color(1, 0.7529412, 0.79607844, 1) });
-				type.constants.push_back({ "PLUM", Variant::COLOR, Color(0.8666667, 0.627451, 0.8666667, 1) });
-				type.constants.push_back({ "POWDER_BLUE", Variant::COLOR, Color(0.6901961, 0.8784314, 0.9019608, 1) });
-				type.constants.push_back({ "PURPLE", Variant::COLOR, Color(0.627451, 0.1254902, 0.9411765, 1) });
+				type.constants.push_back({ "MAROON", Variant::COLOR, Color(0.690196, 0.188235, 0.376471, 1) });
+				type.constants.push_back({ "MEDIUM_AQUAMARINE", Variant::COLOR, Color(0.4, 0.803922, 0.666667, 1) });
+				type.constants.push_back({ "MEDIUM_BLUE", Variant::COLOR, Color(0, 0, 0.803922, 1) });
+				type.constants.push_back({ "MEDIUM_ORCHID", Variant::COLOR, Color(0.729412, 0.333333, 0.827451, 1) });
+				type.constants.push_back({ "MEDIUM_PURPLE", Variant::COLOR, Color(0.576471, 0.439216, 0.858824, 1) });
+				type.constants.push_back({ "MEDIUM_SEA_GREEN", Variant::COLOR, Color(0.235294, 0.701961, 0.443137, 1) });
+				type.constants.push_back({ "MEDIUM_SLATE_BLUE", Variant::COLOR, Color(0.482353, 0.407843, 0.933333, 1) });
+				type.constants.push_back({ "MEDIUM_SPRING_GREEN", Variant::COLOR, Color(0, 0.980392, 0.603922, 1) });
+				type.constants.push_back({ "MEDIUM_TURQUOISE", Variant::COLOR, Color(0.282353, 0.819608, 0.8, 1) });
+				type.constants.push_back({ "MEDIUM_VIOLET_RED", Variant::COLOR, Color(0.780392, 0.0823529, 0.521569, 1) });
+				type.constants.push_back({ "MIDNIGHT_BLUE", Variant::COLOR, Color(0.0980392, 0.0980392, 0.439216, 1) });
+				type.constants.push_back({ "MINT_CREAM", Variant::COLOR, Color(0.960784, 1, 0.980392, 1) });
+				type.constants.push_back({ "MISTY_ROSE", Variant::COLOR, Color(1, 0.894118, 0.882353, 1) });
+				type.constants.push_back({ "MOCCASIN", Variant::COLOR, Color(1, 0.894118, 0.709804, 1) });
+				type.constants.push_back({ "NAVAJO_WHITE", Variant::COLOR, Color(1, 0.870588, 0.678431, 1) });
+				type.constants.push_back({ "NAVY_BLUE", Variant::COLOR, Color(0, 0, 0.501961, 1) });
+				type.constants.push_back({ "OLD_LACE", Variant::COLOR, Color(0.992157, 0.960784, 0.901961, 1) });
+				type.constants.push_back({ "OLIVE", Variant::COLOR, Color(0.501961, 0.501961, 0, 1) });
+				type.constants.push_back({ "OLIVE_DRAB", Variant::COLOR, Color(0.419608, 0.556863, 0.137255, 1) });
+				type.constants.push_back({ "ORANGE", Variant::COLOR, Color(1, 0.647059, 0, 1) });
+				type.constants.push_back({ "ORANGE_RED", Variant::COLOR, Color(1, 0.270588, 0, 1) });
+				type.constants.push_back({ "ORCHID", Variant::COLOR, Color(0.854902, 0.439216, 0.839216, 1) });
+				type.constants.push_back({ "PALE_GOLDENROD", Variant::COLOR, Color(0.933333, 0.909804, 0.666667, 1) });
+				type.constants.push_back({ "PALE_GREEN", Variant::COLOR, Color(0.596078, 0.984314, 0.596078, 1) });
+				type.constants.push_back({ "PALE_TURQUOISE", Variant::COLOR, Color(0.686275, 0.933333, 0.933333, 1) });
+				type.constants.push_back({ "PALE_VIOLET_RED", Variant::COLOR, Color(0.858824, 0.439216, 0.576471, 1) });
+				type.constants.push_back({ "PAPAYA_WHIP", Variant::COLOR, Color(1, 0.937255, 0.835294, 1) });
+				type.constants.push_back({ "PEACH_PUFF", Variant::COLOR, Color(1, 0.854902, 0.72549, 1) });
+				type.constants.push_back({ "PERU", Variant::COLOR, Color(0.803922, 0.521569, 0.247059, 1) });
+				type.constants.push_back({ "PINK", Variant::COLOR, Color(1, 0.752941, 0.796078, 1) });
+				type.constants.push_back({ "PLUM", Variant::COLOR, Color(0.866667, 0.627451, 0.866667, 1) });
+				type.constants.push_back({ "POWDER_BLUE", Variant::COLOR, Color(0.690196, 0.878431, 0.901961, 1) });
+				type.constants.push_back({ "PURPLE", Variant::COLOR, Color(0.627451, 0.12549, 0.941176, 1) });
 				type.constants.push_back({ "REBECCA_PURPLE", Variant::COLOR, Color(0.4, 0.2, 0.6, 1) });
 				type.constants.push_back({ "RED", Variant::COLOR, Color(1, 0, 0, 1) });
-				type.constants.push_back({ "ROSY_BROWN", Variant::COLOR, Color(0.7372549, 0.56078434, 0.56078434, 1) });
-				type.constants.push_back({ "ROYAL_BLUE", Variant::COLOR, Color(0.25490198, 0.4117647, 0.88235295, 1) });
-				type.constants.push_back({ "SADDLE_BROWN", Variant::COLOR, Color(0.54509807, 0.27058825, 0.07450981, 1) });
-				type.constants.push_back({ "SALMON", Variant::COLOR, Color(0.98039216, 0.5019608, 0.44705883, 1) });
-				type.constants.push_back({ "SANDY_BROWN", Variant::COLOR, Color(0.95686275, 0.6431373, 0.3764706, 1) });
-				type.constants.push_back({ "SEA_GREEN", Variant::COLOR, Color(0.18039216, 0.54509807, 0.34117648, 1) });
-				type.constants.push_back({ "SEASHELL", Variant::COLOR, Color(1, 0.9607843, 0.93333334, 1) });
-				type.constants.push_back({ "SIENNA", Variant::COLOR, Color(0.627451, 0.32156864, 0.1764706, 1) });
-				type.constants.push_back({ "SILVER", Variant::COLOR, Color(0.7529412, 0.7529412, 0.7529412, 1) });
-				type.constants.push_back({ "SKY_BLUE", Variant::COLOR, Color(0.5294118, 0.80784315, 0.92156863, 1) });
-				type.constants.push_back({ "SLATE_BLUE", Variant::COLOR, Color(0.41568628, 0.3529412, 0.8039216, 1) });
-				type.constants.push_back({ "SLATE_GRAY", Variant::COLOR, Color(0.4392157, 0.5019608, 0.5647059, 1) });
-				type.constants.push_back({ "SNOW", Variant::COLOR, Color(1, 0.98039216, 0.98039216, 1) });
-				type.constants.push_back({ "SPRING_GREEN", Variant::COLOR, Color(0, 1, 0.49803922, 1) });
-				type.constants.push_back({ "STEEL_BLUE", Variant::COLOR, Color(0.27450982, 0.50980395, 0.7058824, 1) });
-				type.constants.push_back({ "TAN", Variant::COLOR, Color(0.8235294, 0.7058824, 0.54901963, 1) });
-				type.constants.push_back({ "TEAL", Variant::COLOR, Color(0, 0.5019608, 0.5019608, 1) });
-				type.constants.push_back({ "THISTLE", Variant::COLOR, Color(0.84705883, 0.7490196, 0.84705883, 1) });
-				type.constants.push_back({ "TOMATO", Variant::COLOR, Color(1, 0.3882353, 0.2784314, 1) });
+				type.constants.push_back({ "ROSY_BROWN", Variant::COLOR, Color(0.737255, 0.560784, 0.560784, 1) });
+				type.constants.push_back({ "ROYAL_BLUE", Variant::COLOR, Color(0.254902, 0.411765, 0.882353, 1) });
+				type.constants.push_back({ "SADDLE_BROWN", Variant::COLOR, Color(0.545098, 0.270588, 0.0745098, 1) });
+				type.constants.push_back({ "SALMON", Variant::COLOR, Color(0.980392, 0.501961, 0.447059, 1) });
+				type.constants.push_back({ "SANDY_BROWN", Variant::COLOR, Color(0.956863, 0.643137, 0.376471, 1) });
+				type.constants.push_back({ "SEA_GREEN", Variant::COLOR, Color(0.180392, 0.545098, 0.341176, 1) });
+				type.constants.push_back({ "SEASHELL", Variant::COLOR, Color(1, 0.960784, 0.933333, 1) });
+				type.constants.push_back({ "SIENNA", Variant::COLOR, Color(0.627451, 0.321569, 0.176471, 1) });
+				type.constants.push_back({ "SILVER", Variant::COLOR, Color(0.752941, 0.752941, 0.752941, 1) });
+				type.constants.push_back({ "SKY_BLUE", Variant::COLOR, Color(0.529412, 0.807843, 0.921569, 1) });
+				type.constants.push_back({ "SLATE_BLUE", Variant::COLOR, Color(0.415686, 0.352941, 0.803922, 1) });
+				type.constants.push_back({ "SLATE_GRAY", Variant::COLOR, Color(0.439216, 0.501961, 0.564706, 1) });
+				type.constants.push_back({ "SNOW", Variant::COLOR, Color(1, 0.980392, 0.980392, 1) });
+				type.constants.push_back({ "SPRING_GREEN", Variant::COLOR, Color(0, 1, 0.498039, 1) });
+				type.constants.push_back({ "STEEL_BLUE", Variant::COLOR, Color(0.27451, 0.509804, 0.705882, 1) });
+				type.constants.push_back({ "TAN", Variant::COLOR, Color(0.823529, 0.705882, 0.54902, 1) });
+				type.constants.push_back({ "TEAL", Variant::COLOR, Color(0, 0.501961, 0.501961, 1) });
+				type.constants.push_back({ "THISTLE", Variant::COLOR, Color(0.847059, 0.74902, 0.847059, 1) });
+				type.constants.push_back({ "TOMATO", Variant::COLOR, Color(1, 0.388235, 0.278431, 1) });
 				type.constants.push_back({ "TRANSPARENT", Variant::COLOR, Color(1, 1, 1, 0) });
-				type.constants.push_back({ "TURQUOISE", Variant::COLOR, Color(0.2509804, 0.8784314, 0.8156863, 1) });
-				type.constants.push_back({ "VIOLET", Variant::COLOR, Color(0.93333334, 0.50980395, 0.93333334, 1) });
-				type.constants.push_back({ "WEB_GRAY", Variant::COLOR, Color(0.5019608, 0.5019608, 0.5019608, 1) });
-				type.constants.push_back({ "WEB_GREEN", Variant::COLOR, Color(0, 0.5019608, 0, 1) });
-				type.constants.push_back({ "WEB_MAROON", Variant::COLOR, Color(0.5019608, 0, 0, 1) });
-				type.constants.push_back({ "WEB_PURPLE", Variant::COLOR, Color(0.5019608, 0, 0.5019608, 1) });
-				type.constants.push_back({ "WHEAT", Variant::COLOR, Color(0.9607843, 0.87058824, 0.7019608, 1) });
+				type.constants.push_back({ "TURQUOISE", Variant::COLOR, Color(0.25098, 0.878431, 0.815686, 1) });
+				type.constants.push_back({ "VIOLET", Variant::COLOR, Color(0.933333, 0.509804, 0.933333, 1) });
+				type.constants.push_back({ "WEB_GRAY", Variant::COLOR, Color(0.501961, 0.501961, 0.501961, 1) });
+				type.constants.push_back({ "WEB_GREEN", Variant::COLOR, Color(0, 0.501961, 0, 1) });
+				type.constants.push_back({ "WEB_MAROON", Variant::COLOR, Color(0.501961, 0, 0, 1) });
+				type.constants.push_back({ "WEB_PURPLE", Variant::COLOR, Color(0.501961, 0, 0.501961, 1) });
+				type.constants.push_back({ "WHEAT", Variant::COLOR, Color(0.960784, 0.870588, 0.701961, 1) });
 				type.constants.push_back({ "WHITE", Variant::COLOR, Color(1, 1, 1, 1) });
-				type.constants.push_back({ "WHITE_SMOKE", Variant::COLOR, Color(0.9607843, 0.9607843, 0.9607843, 1) });
+				type.constants.push_back({ "WHITE_SMOKE", Variant::COLOR, Color(0.960784, 0.960784, 0.960784, 1) });
 				type.constants.push_back({ "YELLOW", Variant::COLOR, Color(1, 1, 0, 1) });
-				type.constants.push_back({ "YELLOW_GREEN", Variant::COLOR, Color(0.6039216, 0.8039216, 0.19607843, 1) });
+				type.constants.push_back({ "YELLOW_GREEN", Variant::COLOR, Color(0.603922, 0.803922, 0.196078, 1) });
 				type.methods.push_back(_make_method("to_argb32", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("to_abgr32", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("to_rgba32", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
@@ -2513,7 +2515,6 @@ namespace godot
 				type.methods.push_back(_make_method("from_hsv", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::COLOR, { { Variant::FLOAT, "h" }, { Variant::FLOAT, "s" }, { Variant::FLOAT, "v" }, { Variant::FLOAT, "alpha" } }));
 				type.methods.push_back(_make_method("from_ok_hsl", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::COLOR, { { Variant::FLOAT, "h" }, { Variant::FLOAT, "s" }, { Variant::FLOAT, "l" }, { Variant::FLOAT, "alpha" } }));
 				type.methods.push_back(_make_method("from_rgbe9995", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::COLOR, { { Variant::INT, "rgbe" } }));
-				type.methods.push_back(_make_method("from_rgba8", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::COLOR, { { Variant::INT, "r8" }, { Variant::INT, "g8" }, { Variant::INT, "b8" }, { Variant::INT, "a8" } }));
 				ExtensionDB::_singleton->_builtin_types["Color"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::COLOR] = "Color";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("Color");
@@ -2563,7 +2564,6 @@ namespace godot
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING_NAME, "StringName", Variant::STRING_NAME, "StringName", Variant::STRING });
 				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::STRING_NAME, "StringName", Variant::STRING_NAME, "StringName", Variant::BOOL });
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING_NAME, "StringName", Variant::NODE_PATH, "NodePath", Variant::STRING });
-				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING_NAME, "StringName", Variant::RID, "RID", Variant::STRING });
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING_NAME, "StringName", Variant::OBJECT, "Object", Variant::STRING });
 				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::STRING_NAME, "StringName", Variant::OBJECT, "Object", Variant::BOOL });
 				type.operators.push_back({ VariantOperators::OP_MODULE, "%", "Module", Variant::STRING_NAME, "StringName", Variant::CALLABLE, "Callable", Variant::STRING });
@@ -2611,13 +2611,9 @@ namespace godot
 				type.methods.push_back(_make_method("is_subsequence_ofn", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::STRING, "text" } }));
 				type.methods.push_back(_make_method("bigrams", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_STRING_ARRAY, {  }));
 				type.methods.push_back(_make_method("similarity", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, { { Variant::STRING, "text" } }));
-				type.methods.push_back(_make_method("format", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::NIL, "values", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::STRING, "placeholder" } }));
+				type.methods.push_back(_make_method("format", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::NIL, "values" }, { Variant::STRING, "placeholder" } }));
 				type.methods.push_back(_make_method("replace", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "what" }, { Variant::STRING, "forwhat" } }));
 				type.methods.push_back(_make_method("replacen", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "what" }, { Variant::STRING, "forwhat" } }));
-				type.methods.push_back(_make_method("replace_char", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "key" }, { Variant::INT, "with" } }));
-				type.methods.push_back(_make_method("replace_chars", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "keys" }, { Variant::INT, "with" } }));
-				type.methods.push_back(_make_method("remove_char", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "what" } }));
-				type.methods.push_back(_make_method("remove_chars", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "chars" } }));
 				type.methods.push_back(_make_method("repeat", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "count" } }));
 				type.methods.push_back(_make_method("reverse", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("insert", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "position" }, { Variant::STRING, "what" } }));
@@ -2626,7 +2622,6 @@ namespace godot
 				type.methods.push_back(_make_method("to_camel_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("to_pascal_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("to_snake_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("to_kebab_case", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("split", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_STRING_ARRAY, { { Variant::STRING, "delimiter" }, { Variant::BOOL, "allow_empty" }, { Variant::INT, "maxsplit" } }));
 				type.methods.push_back(_make_method("rsplit", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_STRING_ARRAY, { { Variant::STRING, "delimiter" }, { Variant::BOOL, "allow_empty" }, { Variant::INT, "maxsplit" } }));
 				type.methods.push_back(_make_method("split_floats", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_FLOAT64_ARRAY, { { Variant::STRING, "delimiter" }, { Variant::BOOL, "allow_empty" } }));
@@ -2641,7 +2636,7 @@ namespace godot
 				type.methods.push_back(_make_method("rstrip", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "chars" } }));
 				type.methods.push_back(_make_method("get_extension", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("get_basename", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("path_join", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "path" } }));
+				type.methods.push_back(_make_method("path_join", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "file" } }));
 				type.methods.push_back(_make_method("unicode_at", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "at" } }));
 				type.methods.push_back(_make_method("indent", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "prefix" } }));
 				type.methods.push_back(_make_method("dedent", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
@@ -2663,14 +2658,11 @@ namespace godot
 				type.methods.push_back(_make_method("xml_unescape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("uri_encode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("uri_decode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("uri_file_decode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("c_escape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("c_unescape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("json_escape", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("validate_node_name", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("validate_filename", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("is_valid_ascii_identifier", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
-				type.methods.push_back(_make_method("is_valid_unicode_identifier", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_valid_identifier", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_valid_int", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_valid_float", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
@@ -2692,9 +2684,8 @@ namespace godot
 				type.methods.push_back(_make_method("to_utf8_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
 				type.methods.push_back(_make_method("to_utf16_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
 				type.methods.push_back(_make_method("to_utf32_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_wchar_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_multibyte_char_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, { { Variant::STRING, "encoding" } }));
 				type.methods.push_back(_make_method("hex_decode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
+				type.methods.push_back(_make_method("to_wchar_buffer", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, {  }));
 				type.methods.push_back(_make_method("hash", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				ExtensionDB::_singleton->_builtin_types["StringName"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::STRING_NAME] = "StringName";
@@ -2748,8 +2739,6 @@ namespace godot
 				type.operators.push_back({ VariantOperators::OP_LESS_EQUAL, "<=", "Less-than or Equal", Variant::RID, "RID", Variant::RID, "RID", Variant::BOOL });
 				type.operators.push_back({ VariantOperators::OP_GREATER, ">", "Greater-than", Variant::RID, "RID", Variant::RID, "RID", Variant::BOOL });
 				type.operators.push_back({ VariantOperators::OP_GREATER_EQUAL, ">=", "Greater-than or Equal", Variant::RID, "RID", Variant::RID, "RID", Variant::BOOL });
-				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::RID, "RID", Variant::DICTIONARY, "Dictionary", Variant::BOOL });
-				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::RID, "RID", Variant::ARRAY, "Array", Variant::BOOL });
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::RID, "from") } });
 				type.methods.push_back(_make_method("is_valid", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
@@ -2775,7 +2764,7 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::CALLABLE, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::OBJECT, "object"), PropertyInfo(Variant::STRING_NAME, "method") } });
-				type.methods.push_back(_make_method("create", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::CALLABLE, { { Variant::NIL, "variant", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::STRING_NAME, "method" } }));
+				type.methods.push_back(_make_method("create", METHOD_FLAG_NORMAL | METHOD_FLAG_STATIC, Variant::CALLABLE, { { Variant::NIL, "variant" }, { Variant::STRING_NAME, "method" } }));
 				type.methods.push_back(_make_method("callv", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::ARRAY, "arguments" } }, true));
 				type.methods.push_back(_make_method("is_null", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("is_custom", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
@@ -2787,7 +2776,6 @@ namespace godot
 				type.methods.push_back(_make_method("get_argument_count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("get_bound_arguments_count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("get_bound_arguments", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, {  }));
-				type.methods.push_back(_make_method("get_unbound_arguments_count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("hash", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("bindv", METHOD_FLAG_NORMAL, Variant::CALLABLE, { { Variant::ARRAY, "arguments" } }));
 				type.methods.push_back(_make_method("unbind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::CALLABLE, { { Variant::INT, "argcount" } }));
@@ -2825,7 +2813,6 @@ namespace godot
 				type.methods.push_back(_make_method("disconnect", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::CALLABLE, "callable" } }));
 				type.methods.push_back(_make_method("is_connected", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::CALLABLE, "callable" } }));
 				type.methods.push_back(_make_method("get_connections", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, {  }));
-				type.methods.push_back(_make_method("has_connections", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("emit", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST | METHOD_FLAG_VARARG, Variant::NIL, {  }));
 				ExtensionDB::_singleton->_builtin_types["Signal"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::SIGNAL] = "Signal";
@@ -2847,38 +2834,21 @@ namespace godot
 				type.operators.push_back({ VariantOperators::OP_IN, "in", "In", Variant::DICTIONARY, "Dictionary", Variant::ARRAY, "Array", Variant::BOOL });
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::DICTIONARY, "from") } });
-				type.constructors.push_back({ { PropertyInfo(Variant::DICTIONARY, "base"), PropertyInfo(Variant::INT, "key_type"), PropertyInfo(Variant::STRING_NAME, "key_class_name"), PropertyInfo(Variant::NIL, "key_script"), PropertyInfo(Variant::INT, "value_type"), PropertyInfo(Variant::STRING_NAME, "value_class_name"), PropertyInfo(Variant::NIL, "value_script") } });
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("clear", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
-				type.methods.push_back(_make_method("assign", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::DICTIONARY, "dictionary" } }));
-				type.methods.push_back(_make_method("sort", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
 				type.methods.push_back(_make_method("merge", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::DICTIONARY, "dictionary" }, { Variant::BOOL, "overwrite" } }));
 				type.methods.push_back(_make_method("merged", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::DICTIONARY, { { Variant::DICTIONARY, "dictionary" }, { Variant::BOOL, "overwrite" } }));
-				type.methods.push_back(_make_method("has", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::NIL, "key", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
+				type.methods.push_back(_make_method("has", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::NIL, "key" } }));
 				type.methods.push_back(_make_method("has_all", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::ARRAY, "keys" } }));
-				type.methods.push_back(_make_method("find_key", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }, true));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::NIL, "key", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
+				type.methods.push_back(_make_method("find_key", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::NIL, "value" } }, true));
+				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::NIL, "key" } }));
 				type.methods.push_back(_make_method("hash", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("keys", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, {  }));
 				type.methods.push_back(_make_method("values", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, {  }));
 				type.methods.push_back(_make_method("duplicate", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::DICTIONARY, { { Variant::BOOL, "deep" } }));
-				type.methods.push_back(_make_method("duplicate_deep", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::DICTIONARY, { { Variant::INT, "deep_subresources_mode" } }));
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::NIL, "key", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::NIL, "default", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }, true));
-				type.methods.push_back(_make_method("get_or_add", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "key", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::NIL, "default", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }, true));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::NIL, "key", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
-				type.methods.push_back(_make_method("is_typed", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
-				type.methods.push_back(_make_method("is_typed_key", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
-				type.methods.push_back(_make_method("is_typed_value", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
-				type.methods.push_back(_make_method("is_same_typed", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::DICTIONARY, "dictionary" } }));
-				type.methods.push_back(_make_method("is_same_typed_key", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::DICTIONARY, "dictionary" } }));
-				type.methods.push_back(_make_method("is_same_typed_value", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::DICTIONARY, "dictionary" } }));
-				type.methods.push_back(_make_method("get_typed_key_builtin", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
-				type.methods.push_back(_make_method("get_typed_value_builtin", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
-				type.methods.push_back(_make_method("get_typed_key_class_name", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING_NAME, {  }));
-				type.methods.push_back(_make_method("get_typed_value_class_name", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING_NAME, {  }));
-				type.methods.push_back(_make_method("get_typed_key_script", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, {  }, true));
-				type.methods.push_back(_make_method("get_typed_value_script", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, {  }, true));
+				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::NIL, "key" }, { Variant::NIL, "default" } }, true));
+				type.methods.push_back(_make_method("get_or_add", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "key" }, { Variant::NIL, "default" } }, true));
 				type.methods.push_back(_make_method("make_read_only", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
 				type.methods.push_back(_make_method("is_read_only", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
 				type.methods.push_back(_make_method("recursive_equal", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::DICTIONARY, "dictionary" }, { Variant::INT, "recursion_count" } }));
@@ -2923,41 +2893,36 @@ namespace godot
 				type.methods.push_back(_make_method("clear", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
 				type.methods.push_back(_make_method("hash", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("assign", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::ARRAY, "array" } }));
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::INT, "index" } }, true));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
-				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
-				type.methods.push_back(_make_method("push_front", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
-				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
+				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value" } }));
+				type.methods.push_back(_make_method("push_front", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value" } }));
+				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::ARRAY, "array" } }));
 				type.methods.push_back(_make_method("resize", METHOD_FLAG_NORMAL, Variant::INT, { { Variant::INT, "size" } }));
-				type.methods.push_back(_make_method("insert", METHOD_FLAG_NORMAL, Variant::INT, { { Variant::INT, "position" }, { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
+				type.methods.push_back(_make_method("insert", METHOD_FLAG_NORMAL, Variant::INT, { { Variant::INT, "position" }, { Variant::NIL, "value" } }));
 				type.methods.push_back(_make_method("remove_at", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "position" } }));
-				type.methods.push_back(_make_method("fill", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
+				type.methods.push_back(_make_method("fill", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value" } }));
+				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::NIL, "value" } }));
 				type.methods.push_back(_make_method("front", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, {  }, true));
 				type.methods.push_back(_make_method("back", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, {  }, true));
 				type.methods.push_back(_make_method("pick_random", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, {  }, true));
-				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "what", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::INT, "from" } }));
-				type.methods.push_back(_make_method("find_custom", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::CALLABLE, "method" }, { Variant::INT, "from" } }));
-				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "what", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::INT, "from" } }));
-				type.methods.push_back(_make_method("rfind_custom", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::CALLABLE, "method" }, { Variant::INT, "from" } }));
-				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
-				type.methods.push_back(_make_method("has", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }));
+				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "what" }, { Variant::INT, "from" } }));
+				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "what" }, { Variant::INT, "from" } }));
+				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "value" } }));
+				type.methods.push_back(_make_method("has", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::NIL, "value" } }));
 				type.methods.push_back(_make_method("pop_back", METHOD_FLAG_NORMAL, Variant::NIL, {  }, true));
 				type.methods.push_back(_make_method("pop_front", METHOD_FLAG_NORMAL, Variant::NIL, {  }, true));
 				type.methods.push_back(_make_method("pop_at", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "position" } }, true));
 				type.methods.push_back(_make_method("sort", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
 				type.methods.push_back(_make_method("sort_custom", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::CALLABLE, "func" } }));
 				type.methods.push_back(_make_method("shuffle", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
-				type.methods.push_back(_make_method("bsearch", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::BOOL, "before" } }));
-				type.methods.push_back(_make_method("bsearch_custom", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::CALLABLE, "func" }, { Variant::BOOL, "before" } }));
+				type.methods.push_back(_make_method("bsearch", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "value" }, { Variant::BOOL, "before" } }));
+				type.methods.push_back(_make_method("bsearch_custom", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::NIL, "value" }, { Variant::CALLABLE, "func" }, { Variant::BOOL, "before" } }));
 				type.methods.push_back(_make_method("reverse", METHOD_FLAG_NORMAL, Variant::NIL, {  }));
 				type.methods.push_back(_make_method("duplicate", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, { { Variant::BOOL, "deep" } }));
-				type.methods.push_back(_make_method("duplicate_deep", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, { { Variant::INT, "deep_subresources_mode" } }));
 				type.methods.push_back(_make_method("slice", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, { { Variant::INT, "begin" }, { Variant::INT, "end" }, { Variant::INT, "step" }, { Variant::BOOL, "deep" } }));
 				type.methods.push_back(_make_method("filter", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, { { Variant::CALLABLE, "method" } }));
 				type.methods.push_back(_make_method("map", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::ARRAY, { { Variant::CALLABLE, "method" } }));
-				type.methods.push_back(_make_method("reduce", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::CALLABLE, "method" }, { Variant::NIL, "accum", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT } }, true));
+				type.methods.push_back(_make_method("reduce", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, { { Variant::CALLABLE, "method" }, { Variant::NIL, "accum" } }, true));
 				type.methods.push_back(_make_method("any", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::CALLABLE, "method" } }));
 				type.methods.push_back(_make_method("all", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, { { Variant::CALLABLE, "method" } }));
 				type.methods.push_back(_make_method("max", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::NIL, {  }, true));
@@ -2991,10 +2956,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_BYTE_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_BYTE_ARRAY, "array" } }));
@@ -3012,13 +2976,11 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("get_string_from_ascii", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("get_string_from_utf8", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("get_string_from_utf16", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("get_string_from_utf32", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("get_string_from_wchar", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
-				type.methods.push_back(_make_method("get_string_from_multibyte_char", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::STRING, "encoding" } }));
 				type.methods.push_back(_make_method("hex_encode", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, {  }));
 				type.methods.push_back(_make_method("compress", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, { { Variant::INT, "compression_mode" } }));
 				type.methods.push_back(_make_method("decompress", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_BYTE_ARRAY, { { Variant::INT, "buffer_size" }, { Variant::INT, "compression_mode" } }));
@@ -3041,13 +3003,6 @@ namespace godot
 				type.methods.push_back(_make_method("to_int64_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_INT64_ARRAY, {  }));
 				type.methods.push_back(_make_method("to_float32_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_FLOAT32_ARRAY, {  }));
 				type.methods.push_back(_make_method("to_float64_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_FLOAT64_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_vector2_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_VECTOR2_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_vector3_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_VECTOR3_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_vector4_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_VECTOR4_ARRAY, {  }));
-				type.methods.push_back(_make_method("to_color_array", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::PACKED_COLOR_ARRAY, {  }));
-				type.methods.push_back(_make_method("bswap16", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "offset" }, { Variant::INT, "count" } }));
-				type.methods.push_back(_make_method("bswap32", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "offset" }, { Variant::INT, "count" } }));
-				type.methods.push_back(_make_method("bswap64", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "offset" }, { Variant::INT, "count" } }));
 				type.methods.push_back(_make_method("encode_u8", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "byte_offset" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("encode_s8", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "byte_offset" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("encode_u16", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "byte_offset" }, { Variant::INT, "value" } }));
@@ -3059,7 +3014,7 @@ namespace godot
 				type.methods.push_back(_make_method("encode_half", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "byte_offset" }, { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("encode_float", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "byte_offset" }, { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("encode_double", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "byte_offset" }, { Variant::FLOAT, "value" } }));
-				type.methods.push_back(_make_method("encode_var", METHOD_FLAG_NORMAL, Variant::INT, { { Variant::INT, "byte_offset" }, { Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT }, { Variant::BOOL, "allow_objects" } }));
+				type.methods.push_back(_make_method("encode_var", METHOD_FLAG_NORMAL, Variant::INT, { { Variant::INT, "byte_offset" }, { Variant::NIL, "value" }, { Variant::BOOL, "allow_objects" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedByteArray"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_BYTE_ARRAY] = "PackedByteArray";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedByteArray");
@@ -3082,10 +3037,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_INT32_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_INT32_ARRAY, "array" } }));
@@ -3104,7 +3058,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedInt32Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_INT32_ARRAY] = "PackedInt32Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedInt32Array");
@@ -3127,10 +3080,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_INT64_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_INT64_ARRAY, "array" } }));
@@ -3149,7 +3101,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::INT, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::INT, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedInt64Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_INT64_ARRAY] = "PackedInt64Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedInt64Array");
@@ -3172,10 +3123,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_FLOAT32_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_FLOAT32_ARRAY, "array" } }));
@@ -3194,7 +3144,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::FLOAT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::FLOAT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::FLOAT, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::FLOAT, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedFloat32Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_FLOAT32_ARRAY] = "PackedFloat32Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedFloat32Array");
@@ -3217,10 +3166,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_FLOAT64_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::FLOAT, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::FLOAT, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_FLOAT64_ARRAY, "array" } }));
@@ -3239,7 +3187,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::FLOAT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::FLOAT, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::FLOAT, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::FLOAT, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedFloat64Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_FLOAT64_ARRAY] = "PackedFloat64Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedFloat64Array");
@@ -3262,10 +3209,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_STRING_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::STRING, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::STRING, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::STRING, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::STRING, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::STRING, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_STRING_ARRAY, "array" } }));
@@ -3284,7 +3230,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::STRING, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::STRING, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::STRING, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::STRING, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedStringArray"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_STRING_ARRAY] = "PackedStringArray";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedStringArray");
@@ -3308,10 +3253,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_VECTOR2_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR2, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::VECTOR2, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::VECTOR2, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR2, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR2, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_VECTOR2_ARRAY, "array" } }));
@@ -3330,7 +3274,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR2, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR2, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR2, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR2, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedVector2Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_VECTOR2_ARRAY] = "PackedVector2Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedVector2Array");
@@ -3354,10 +3297,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_VECTOR3_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR3, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::VECTOR3, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::VECTOR3, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR3, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR3, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_VECTOR3_ARRAY, "array" } }));
@@ -3376,7 +3318,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR3, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR3, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR3, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR3, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedVector3Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_VECTOR3_ARRAY] = "PackedVector3Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedVector3Array");
@@ -3399,10 +3340,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_COLOR_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::COLOR, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::COLOR, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::COLOR, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::COLOR, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::COLOR, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_COLOR_ARRAY, "array" } }));
@@ -3421,7 +3361,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::COLOR, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::COLOR, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::COLOR, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::COLOR, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedColorArray"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_COLOR_ARRAY] = "PackedColorArray";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedColorArray");
@@ -3444,10 +3383,9 @@ namespace godot
 				type.constructors.push_back({ {  } });
 				type.constructors.push_back({ { PropertyInfo(Variant::PACKED_VECTOR4_ARRAY, "from") } });
 				type.constructors.push_back({ { PropertyInfo(Variant::ARRAY, "from") } });
-				type.methods.push_back(_make_method("get", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::VECTOR4, { { Variant::INT, "index" } }));
-				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::VECTOR4, "value" } }));
 				type.methods.push_back(_make_method("size", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, {  }));
 				type.methods.push_back(_make_method("is_empty", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::BOOL, {  }));
+				type.methods.push_back(_make_method("set", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::INT, "index" }, { Variant::VECTOR4, "value" } }));
 				type.methods.push_back(_make_method("push_back", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR4, "value" } }));
 				type.methods.push_back(_make_method("append", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR4, "value" } }));
 				type.methods.push_back(_make_method("append_array", METHOD_FLAG_NORMAL, Variant::NIL, { { Variant::PACKED_VECTOR4_ARRAY, "array" } }));
@@ -3466,7 +3404,6 @@ namespace godot
 				type.methods.push_back(_make_method("find", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR4, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("rfind", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR4, "value" }, { Variant::INT, "from" } }));
 				type.methods.push_back(_make_method("count", METHOD_FLAG_NORMAL | METHOD_FLAG_CONST, Variant::INT, { { Variant::VECTOR4, "value" } }));
-				type.methods.push_back(_make_method("erase", METHOD_FLAG_NORMAL, Variant::BOOL, { { Variant::VECTOR4, "value" } }));
 				ExtensionDB::_singleton->_builtin_types["PackedVector4Array"] = type;
 				ExtensionDB::_singleton->_builtin_types_to_name[Variant::PACKED_VECTOR4_ARRAY] = "PackedVector4Array";
 				ExtensionDB::_singleton->_builtin_type_names.push_back("PackedVector4Array");
@@ -3656,7 +3593,7 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "x", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "x" });
 				ExtensionDB::_singleton->_functions["floor"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("floor");
 			}
@@ -3686,7 +3623,7 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "x", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "x" });
 				ExtensionDB::_singleton->_functions["ceil"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("ceil");
 			}
@@ -3716,7 +3653,7 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "x", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "x" });
 				ExtensionDB::_singleton->_functions["round"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("round");
 			}
@@ -3746,7 +3683,7 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "x", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "x" });
 				ExtensionDB::_singleton->_functions["abs"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("abs");
 			}
@@ -3776,7 +3713,7 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "x", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "x" });
 				ExtensionDB::_singleton->_functions["sign"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("sign");
 			}
@@ -3806,8 +3743,8 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "x", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "step", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "x" });
+				fi.arguments.push_back({ Variant::NIL, "step" });
 				ExtensionDB::_singleton->_functions["snapped"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("snapped");
 			}
@@ -3942,9 +3879,9 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "from", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "to", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "weight", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "from" });
+				fi.arguments.push_back({ Variant::NIL, "to" });
+				fi.arguments.push_back({ Variant::NIL, "weight" });
 				ExtensionDB::_singleton->_functions["lerp"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("lerp");
 			}
@@ -4181,9 +4118,9 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "min", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "max", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "value" });
+				fi.arguments.push_back({ Variant::NIL, "min" });
+				fi.arguments.push_back({ Variant::NIL, "max" });
 				ExtensionDB::_singleton->_functions["wrap"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("wrap");
 			}
@@ -4217,8 +4154,8 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "arg2", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
+				fi.arguments.push_back({ Variant::NIL, "arg2" });
 				ExtensionDB::_singleton->_functions["max"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("max");
 			}
@@ -4250,8 +4187,8 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "arg2", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
+				fi.arguments.push_back({ Variant::NIL, "arg2" });
 				ExtensionDB::_singleton->_functions["min"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("min");
 			}
@@ -4283,9 +4220,9 @@ namespace godot
 				fi.category = "math";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "value", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "min", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "max", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "value" });
+				fi.arguments.push_back({ Variant::NIL, "min" });
+				fi.arguments.push_back({ Variant::NIL, "max" });
 				ExtensionDB::_singleton->_functions["clamp"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("clamp");
 			}
@@ -4420,7 +4357,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "obj", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "obj" });
 				ExtensionDB::_singleton->_functions["weakref"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("weakref");
 			}
@@ -4430,7 +4367,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::INT, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "variable", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "variable" });
 				ExtensionDB::_singleton->_functions["typeof"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("typeof");
 			}
@@ -4440,7 +4377,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT);
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "variant", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "variant" });
 				fi.arguments.push_back({ Variant::INT, "type" });
 				ExtensionDB::_singleton->_functions["type_convert"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("type_convert");
@@ -4451,7 +4388,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::STRING, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["str"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("str");
 			}
@@ -4481,7 +4418,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["print"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("print");
 			}
@@ -4491,7 +4428,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["print_rich"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("print_rich");
 			}
@@ -4501,7 +4438,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["printerr"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("printerr");
 			}
@@ -4511,7 +4448,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["printt"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("printt");
 			}
@@ -4521,7 +4458,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["prints"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("prints");
 			}
@@ -4531,7 +4468,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["printraw"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("printraw");
 			}
@@ -4541,7 +4478,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["print_verbose"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("print_verbose");
 			}
@@ -4551,7 +4488,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["push_error"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("push_error");
 			}
@@ -4561,7 +4498,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::NIL, "");
 				fi.is_vararg = true;
-				fi.arguments.push_back({ Variant::NIL, "arg1", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "arg1" });
 				ExtensionDB::_singleton->_functions["push_warning"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("push_warning");
 			}
@@ -4571,7 +4508,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::STRING, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "variable", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "variable" });
 				ExtensionDB::_singleton->_functions["var_to_str"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("var_to_str");
 			}
@@ -4591,7 +4528,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::PACKED_BYTE_ARRAY, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "variable", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "variable" });
 				ExtensionDB::_singleton->_functions["var_to_bytes"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("var_to_bytes");
 			}
@@ -4611,7 +4548,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::PACKED_BYTE_ARRAY, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "variable", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "variable" });
 				ExtensionDB::_singleton->_functions["var_to_bytes_with_objects"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("var_to_bytes_with_objects");
 			}
@@ -4631,7 +4568,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::INT, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "variable", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "variable" });
 				ExtensionDB::_singleton->_functions["hash"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("hash");
 			}
@@ -4661,7 +4598,7 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::BOOL, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "instance", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "instance" });
 				ExtensionDB::_singleton->_functions["is_instance_valid"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("is_instance_valid");
 			}
@@ -4690,8 +4627,8 @@ namespace godot
 				fi.category = "general";
 				fi.return_val = PropertyInfo(Variant::BOOL, "");
 				fi.is_vararg = false;
-				fi.arguments.push_back({ Variant::NIL, "a", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
-				fi.arguments.push_back({ Variant::NIL, "b", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_NIL_IS_VARIANT });
+				fi.arguments.push_back({ Variant::NIL, "a" });
+				fi.arguments.push_back({ Variant::NIL, "b" });
 				ExtensionDB::_singleton->_functions["is_same"] = fi;
 				ExtensionDB::_singleton->_function_names.push_back("is_same");
 			}
@@ -4703,44 +4640,19 @@ namespace godot
 			// This currently only loads classes that have bitfield enums; use ClassDB otherwise.
 			// Can eventually be replaced by: https://github.com/godotengine/godot/pull/90368
 			
-			// AnimationNodeExtension
-			ExtensionDB::_singleton->_classes["AnimationNodeExtension"].name = "AnimationNodeExtension";
-			ExtensionDB::_singleton->_classes["AnimationNodeExtension"].static_function_hashes["is_looping"] = 2035584311;
-			ExtensionDB::_singleton->_classes["AnimationNodeExtension"].static_function_hashes["get_remaining_time"] = 2851904656;
-			
-			// AudioStreamMP3
-			ExtensionDB::_singleton->_classes["AudioStreamMP3"].name = "AudioStreamMP3";
-			ExtensionDB::_singleton->_classes["AudioStreamMP3"].static_function_hashes["load_from_buffer"] = 1674970313;
-			ExtensionDB::_singleton->_classes["AudioStreamMP3"].static_function_hashes["load_from_file"] = 4238362998;
-			
 			// AudioStreamOggVorbis
 			ExtensionDB::_singleton->_classes["AudioStreamOggVorbis"].name = "AudioStreamOggVorbis";
 			ExtensionDB::_singleton->_classes["AudioStreamOggVorbis"].static_function_hashes["load_from_buffer"] = 354904730;
 			ExtensionDB::_singleton->_classes["AudioStreamOggVorbis"].static_function_hashes["load_from_file"] = 797568536;
 			
-			// AudioStreamWAV
-			ExtensionDB::_singleton->_classes["AudioStreamWAV"].name = "AudioStreamWAV";
-			ExtensionDB::_singleton->_classes["AudioStreamWAV"].static_function_hashes["load_from_buffer"] = 4266838938;
-			ExtensionDB::_singleton->_classes["AudioStreamWAV"].static_function_hashes["load_from_file"] = 4015802384;
-			
 			// Control
 			ExtensionDB::_singleton->_classes["Control"].name = "Control";
 			ExtensionDB::_singleton->_classes["Control"].bitfield_enums.push_back("SizeFlags");
-			
-			// CopyTransformModifier3D
-			ExtensionDB::_singleton->_classes["CopyTransformModifier3D"].name = "CopyTransformModifier3D";
-			ExtensionDB::_singleton->_classes["CopyTransformModifier3D"].bitfield_enums.push_back("TransformFlag");
-			ExtensionDB::_singleton->_classes["CopyTransformModifier3D"].bitfield_enums.push_back("AxisFlag");
-			
-			// DPITexture
-			ExtensionDB::_singleton->_classes["DPITexture"].name = "DPITexture";
-			ExtensionDB::_singleton->_classes["DPITexture"].static_function_hashes["create_from_string"] = 755140520;
 			
 			// DirAccess
 			ExtensionDB::_singleton->_classes["DirAccess"].name = "DirAccess";
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["open"] = 1923528528;
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["get_open_error"] = 166280745;
-			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["create_temp"] = 812913566;
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["get_files_at"] = 3538744774;
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["get_directories_at"] = 3538744774;
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["get_drive_count"] = 2455072627;
@@ -4752,31 +4664,19 @@ namespace godot
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["rename_absolute"] = 852856452;
 			ExtensionDB::_singleton->_classes["DirAccess"].static_function_hashes["remove_absolute"] = 166001499;
 			
-			// EditorExportPlatform
-			ExtensionDB::_singleton->_classes["EditorExportPlatform"].name = "EditorExportPlatform";
-			ExtensionDB::_singleton->_classes["EditorExportPlatform"].static_function_hashes["get_forced_export_files"] = 1939331020;
-			ExtensionDB::_singleton->_classes["EditorExportPlatform"].bitfield_enums.push_back("DebugFlags");
-			
-			// EditorInspector
-			ExtensionDB::_singleton->_classes["EditorInspector"].name = "EditorInspector";
-			ExtensionDB::_singleton->_classes["EditorInspector"].static_function_hashes["instantiate_property_editor"] = 1429914152;
-			
 			// FileAccess
 			ExtensionDB::_singleton->_classes["FileAccess"].name = "FileAccess";
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["open"] = 1247358404;
-			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["open_encrypted"] = 788003459;
+			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["open_encrypted"] = 1482131466;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["open_encrypted_with_pass"] = 790283377;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["open_compressed"] = 3686439335;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_open_error"] = 166280745;
-			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["create_temp"] = 3075606245;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_file_as_bytes"] = 659035735;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_file_as_string"] = 1703090593;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_md5"] = 1703090593;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_sha256"] = 1703090593;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["file_exists"] = 2323990056;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_modified_time"] = 1597066294;
-			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_access_time"] = 1597066294;
-			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_size"] = 1597066294;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_unix_permissions"] = 524341837;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["set_unix_permissions"] = 846038644;
 			ExtensionDB::_singleton->_classes["FileAccess"].static_function_hashes["get_hidden_attribute"] = 2323990056;
@@ -4796,11 +4696,8 @@ namespace godot
 			
 			// GLTFDocument
 			ExtensionDB::_singleton->_classes["GLTFDocument"].name = "GLTFDocument";
-			ExtensionDB::_singleton->_classes["GLTFDocument"].static_function_hashes["import_object_model_property"] = 1206708632;
-			ExtensionDB::_singleton->_classes["GLTFDocument"].static_function_hashes["export_object_model_property"] = 314209806;
 			ExtensionDB::_singleton->_classes["GLTFDocument"].static_function_hashes["register_gltf_document_extension"] = 3752678331;
 			ExtensionDB::_singleton->_classes["GLTFDocument"].static_function_hashes["unregister_gltf_document_extension"] = 2684415758;
-			ExtensionDB::_singleton->_classes["GLTFDocument"].static_function_hashes["get_supported_gltf_extensions"] = 2981934095;
 			
 			// GLTFLight
 			ExtensionDB::_singleton->_classes["GLTFLight"].name = "GLTFLight";
@@ -4837,8 +4734,6 @@ namespace godot
 			ExtensionDB::_singleton->_classes["JSON"].name = "JSON";
 			ExtensionDB::_singleton->_classes["JSON"].static_function_hashes["stringify"] = 462733549;
 			ExtensionDB::_singleton->_classes["JSON"].static_function_hashes["parse_string"] = 309047738;
-			ExtensionDB::_singleton->_classes["JSON"].static_function_hashes["from_native"] = 2963479484;
-			ExtensionDB::_singleton->_classes["JSON"].static_function_hashes["to_native"] = 2963479484;
 			
 			// Mesh
 			ExtensionDB::_singleton->_classes["Mesh"].name = "Mesh";
@@ -4865,7 +4760,6 @@ namespace godot
 			// Node
 			ExtensionDB::_singleton->_classes["Node"].name = "Node";
 			ExtensionDB::_singleton->_classes["Node"].static_function_hashes["print_orphan_nodes"] = 3218959716;
-			ExtensionDB::_singleton->_classes["Node"].static_function_hashes["get_orphan_node_ids"] = 2915620761;
 			ExtensionDB::_singleton->_classes["Node"].bitfield_enums.push_back("ProcessThreadMessages");
 			
 			// OpenXRAPIExtension
@@ -4895,16 +4789,14 @@ namespace godot
 			
 			// RegEx
 			ExtensionDB::_singleton->_classes["RegEx"].name = "RegEx";
-			ExtensionDB::_singleton->_classes["RegEx"].static_function_hashes["create_from_string"] = 4249111514;
+			ExtensionDB::_singleton->_classes["RegEx"].static_function_hashes["create_from_string"] = 2150300909;
 			
 			// RenderingDevice
 			ExtensionDB::_singleton->_classes["RenderingDevice"].name = "RenderingDevice";
 			ExtensionDB::_singleton->_classes["RenderingDevice"].bitfield_enums.push_back("BarrierMask");
 			ExtensionDB::_singleton->_classes["RenderingDevice"].bitfield_enums.push_back("TextureUsageBits");
 			ExtensionDB::_singleton->_classes["RenderingDevice"].bitfield_enums.push_back("StorageBufferUsage");
-			ExtensionDB::_singleton->_classes["RenderingDevice"].bitfield_enums.push_back("BufferCreationBits");
 			ExtensionDB::_singleton->_classes["RenderingDevice"].bitfield_enums.push_back("PipelineDynamicStateFlags");
-			ExtensionDB::_singleton->_classes["RenderingDevice"].bitfield_enums.push_back("DrawFlags");
 			
 			// RenderingServer
 			ExtensionDB::_singleton->_classes["RenderingServer"].name = "RenderingServer";
@@ -4923,25 +4815,9 @@ namespace godot
 			ExtensionDB::_singleton->_classes["ResourceSaver"].name = "ResourceSaver";
 			ExtensionDB::_singleton->_classes["ResourceSaver"].bitfield_enums.push_back("SaverFlags");
 			
-			// ResourceUID
-			ExtensionDB::_singleton->_classes["ResourceUID"].name = "ResourceUID";
-			ExtensionDB::_singleton->_classes["ResourceUID"].static_function_hashes["uid_to_path"] = 1703090593;
-			ExtensionDB::_singleton->_classes["ResourceUID"].static_function_hashes["path_to_uid"] = 1703090593;
-			ExtensionDB::_singleton->_classes["ResourceUID"].static_function_hashes["ensure_path"] = 1703090593;
-			
-			// RetargetModifier3D
-			ExtensionDB::_singleton->_classes["RetargetModifier3D"].name = "RetargetModifier3D";
-			ExtensionDB::_singleton->_classes["RetargetModifier3D"].bitfield_enums.push_back("TransformFlag");
-			
 			// RichTextLabel
 			ExtensionDB::_singleton->_classes["RichTextLabel"].name = "RichTextLabel";
 			ExtensionDB::_singleton->_classes["RichTextLabel"].bitfield_enums.push_back("ImageUpdateMask");
-			
-			// ShaderIncludeDB
-			ExtensionDB::_singleton->_classes["ShaderIncludeDB"].name = "ShaderIncludeDB";
-			ExtensionDB::_singleton->_classes["ShaderIncludeDB"].static_function_hashes["list_built_in_include_files"] = 2981934095;
-			ExtensionDB::_singleton->_classes["ShaderIncludeDB"].static_function_hashes["has_built_in_include_file"] = 2323990056;
-			ExtensionDB::_singleton->_classes["ShaderIncludeDB"].static_function_hashes["get_built_in_include_file"] = 1703090593;
 			
 			// TLSOptions
 			ExtensionDB::_singleton->_classes["TLSOptions"].name = "TLSOptions";
@@ -4972,10 +4848,6 @@ namespace godot
 			// WebRTCPeerConnection
 			ExtensionDB::_singleton->_classes["WebRTCPeerConnection"].name = "WebRTCPeerConnection";
 			ExtensionDB::_singleton->_classes["WebRTCPeerConnection"].static_function_hashes["set_default_extension"] = 3304788590;
-			
-			// Window
-			ExtensionDB::_singleton->_classes["Window"].name = "Window";
-			ExtensionDB::_singleton->_classes["Window"].static_function_hashes["get_focused_window"] = 1835468782;
 			
 			// XRBodyModifier3D
 			ExtensionDB::_singleton->_classes["XRBodyModifier3D"].name = "XRBodyModifier3D";
@@ -5033,15 +4905,6 @@ namespace godot
     EnumInfo ExtensionDB::get_global_enum(const StringName& p_name)
     {
         return ExtensionDB::_singleton->_global_enums[p_name];
-    }
-
-    EnumInfo ExtensionDB::get_global_enum_by_value(const StringName& p_name)
-    {
-        for (const KeyValue<StringName, EnumInfo>& E : ExtensionDB::_singleton->_global_enums)
-            for (const EnumValue& ev : E.value.values)
-                if (ev.name.match(p_name))
-                    return E.value;
-        return {};
     }
 
     EnumValue ExtensionDB::get_global_enum_value(const StringName& p_name)

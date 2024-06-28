@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,19 +17,16 @@
 #include "script/script.h"
 
 #include "common/dictionary_utils.h"
-#include "common/resource_utils.h"
 #include "script/instances/script_instance.h"
 #include "script/instances/script_instance_placeholder.h"
 #include "script/nodes/script_nodes.h"
 
 #include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/engine_debugger.hpp>
-#include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/mutex_lock.hpp>
 
 OScript::OScript()
-    : Orchestration(this, OT_Script)
-    , _valid(true)
+    : _valid(true)
+    , Orchestration(this, OT_Script)
     , _language(OScriptLanguage::get_singleton())
 {
 }
@@ -83,6 +80,8 @@ void OScript::_bind_methods()
     ADD_SIGNAL(MethodInfo("signals_changed"));
 }
 
+/// Serialization //////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /// ScriptExtension ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool OScript::_editor_can_reload_from_file()
@@ -99,9 +98,7 @@ void* OScript::_placeholder_instance_create(Object* p_object) const
         MutexLock lock(*_language->lock.ptr());
         _placeholders[p_object->get_instance_id()] = psi;
     }
-    psi->_script_instance = GDEXTENSION_SCRIPT_INSTANCE_CREATE(&OScriptPlaceHolderInstance::INSTANCE_INFO, psi);
-    _update_exports_placeholder(nullptr, false, psi);
-    return psi->_script_instance;
+    return internal::gdextension_interface_script_instance_create3(&OScriptPlaceHolderInstance::INSTANCE_INFO, psi);
     #else
     return nullptr;
     #endif
@@ -131,21 +128,13 @@ bool OScript::placeholder_has(Object* p_object) const
 
 void* OScript::_instance_create(Object* p_object) const
 {
-    if (!ClassDB::is_parent_class(p_object->get_class(), _base_type))
-    {
-        const String message = vformat("Orchestration inherits from native type '%s', so it can't be assigned to an object of type: '%s'", _base_type, p_object->get_class());
-        if (EngineDebugger::get_singleton()->is_active())
-            OScriptLanguage::get_singleton()->debug_break_parse(get_path(), -1, message);
-        ERR_FAIL_V_MSG(nullptr, message);
-    }
-
     OScriptInstance* si = memnew(OScriptInstance(Ref<Script>(this), _language, p_object));
     {
         MutexLock lock(*_language->lock.ptr());
         _instances[p_object] = si;
     }
 
-    si->_script_instance = GDEXTENSION_SCRIPT_INSTANCE_CREATE(&OScriptInstance::INSTANCE_INFO, si);
+    void* godot_inst = internal::gdextension_interface_script_instance_create3(&OScriptInstance::INSTANCE_INFO, si);
 
     // Dispatch the "Init Event" if its wired
     if (has_function("_init"))
@@ -155,7 +144,7 @@ void* OScript::_instance_create(Object* p_object) const
         si->call("_init", nullptr, 0, &result, &err);
     }
 
-    return si->_script_instance;
+    return godot_inst;
 }
 
 bool OScript::_instance_has(Object* p_object) const
@@ -188,7 +177,7 @@ bool OScript::_inherits_script(const Ref<Script>& p_script) const
 
 StringName OScript::_get_global_name() const
 {
-    return "";
+    return "Orchestration";
 }
 
 StringName OScript::_get_instance_base_type() const
@@ -252,11 +241,7 @@ TypedArray<Dictionary> OScript::_get_script_method_list() const
 
 TypedArray<Dictionary> OScript::_get_script_property_list() const
 {
-    TypedArray<Dictionary> results;
-    for (const KeyValue<StringName, Ref<OScriptVariable>>& E : _variables)
-        results.push_back(DictionaryUtils::from_property(E.value->get_info()));
-
-    return results;
+    return {};
 }
 
 bool OScript::_is_tool() const
@@ -291,10 +276,14 @@ TypedArray<Dictionary> OScript::_get_script_signal_list() const
 
 bool OScript::_has_property_default_value(const StringName& p_property) const
 {
-    HashMap<StringName, Ref<OScriptVariable>>::ConstIterator E = _variables.find(p_property);
-    if (E)
-        return true;
-
+    for (const KeyValue<StringName, Ref<OScriptVariable>>& E : _variables)
+    {
+        if (E.key.match(p_property))
+        {
+            if (E.value->get_default_value().get_type() != Variant::NIL)
+                return true;
+        }
+    }
     return false;
 }
 
@@ -308,13 +297,6 @@ Variant OScript::_get_property_default_value(const StringName& p_property) const
 }
 
 void OScript::_update_exports()
-{
-    #ifdef TOOLS_ENABLED
-    _update_exports_down(false);
-    #endif
-}
-
-void OScript::_update_placeholders()
 {
 }
 
@@ -344,112 +326,18 @@ String OScript::_get_class_icon_path() const
     return {};
 }
 
-#if GODOT_VERSION >= 0x040400
-StringName OScript::_get_doc_class_name() const
-{
-    // todo: requires adding documentation support
-    return {};
-}
-#endif
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Internal API
 
-void OScript::_update_export_values(HashMap<StringName, Variant>& r_values, List<PropertyInfo>& r_properties) const
-{
-    for (const Ref<OScriptVariable>& variable : get_variables())
-    {
-        PropertyInfo property = variable->get_info();
-        if (variable->is_grouped_by_category())
-            property.name = vformat("%s/%s", variable->get_category(), variable->get_variable_name());
-
-        r_values[property.name] = variable->get_default_value();
-        r_properties.push_back(property);
-    }
-}
-
-bool OScript::_update_exports_placeholder(bool* r_err, bool p_recursive_call, OScriptPlaceHolderInstance* p_instance, bool p_base_exports_changed) const
+bool OScript::_update_exports_placeholder(bool* r_err, bool p_recursive_call, OScriptInstance* p_instance) const
 {
 #ifdef TOOLS_ENABLED
-    HashMap<StringName, Variant> values;
-    List<PropertyInfo> properties;
-    _update_export_values(values, properties);
-
-    for (const KeyValue<uint64_t, OScriptPlaceHolderInstance*>& E : _placeholders)
-        E.value->update(properties, values);
-
     return true;
 #else
     return false;
 #endif
 }
 
-void OScript::_update_exports_down(bool p_base_exports_changed)
+void OScript::_update_placeholders()
 {
-    bool cyclic_error = false;
-    _update_exports_placeholder(&cyclic_error, false, nullptr, p_base_exports_changed);
-    // todo: add inheriters_cache
-}
-
-void OScript::reload_from_file()
-{
-    constexpr ResourceLoader::CacheMode CACHE_MODE_IGNORE = ResourceLoader::CACHE_MODE_IGNORE;
-    const String path = get_path();
-
-    // This logic was taken directly from Script::reload_from_file
-    #ifdef TOOLS_ENABLED
-    Ref<OScript> reload = ResourceLoader::get_singleton()->load(path, get_class(), CACHE_MODE_IGNORE);
-    if (reload.is_valid())
-    {
-        set_block_signals(true);
-
-        // With the reload, this reapplies all the data from the reloaded script to this
-        // Signals are blocked, so no observers are notified.
-        _set_base_type(reload->_get_base_type());
-        _set_nodes(reload->_get_nodes());
-        _set_connections(reload->_get_connections());
-        _set_graphs(reload->_get_graphs());
-        _set_functions(reload->_get_functions());
-        _set_variables(reload->_get_variables());
-        _set_signals(reload->_get_signals());
-        reload.unref();
-        _postinitialize();
-
-        set_edited(false);
-        set_block_signals(true);
-
-        emit_changed();
-
-        if (_is_valid())
-        {
-            if (Engine::get_singleton()->is_editor_hint() && is_tool())
-            {
-                ScriptLanguageExtension* language = cast_to<ScriptLanguageExtension>(get_language());
-                if (language)
-                    language->_reload_tool_script(this, true);
-            }
-            else
-                _reload(true);
-        }
-    }
-    #else
-    if (ResourceUtils::is_file(path))
-    {
-        Ref<Script> reload = ResourceLoader::get_singleton()->load(path, get_class(), CACHE_MODE_IGNORE);
-        if (reload.is_valid())
-        {
-            reset_state();
-
-            const TypedArray<Dictionary> properties = get_property_list();
-            for (int i = 0; i < properties.size(); i++)
-            {
-                const PropertyInfo& property = DictionaryUtils::to_property(properties[i]);
-                if (!(property.usage & PROPERTY_USAGE_STORAGE))
-                    continue;
-
-                if (property.name.match("resource_path"))
-                    continue;
-
-                set(property.name, reload->get(property.name));
-            }
-        }
-    }
-    #endif
 }

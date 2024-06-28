@@ -1,6 +1,6 @@
 // This file is part of the Godot Orchestrator project.
 //
-// Copyright (c) 2023-present Crater Crash Studios LLC and its contributors.
+// Copyright (c) 2023-present Vahera Studios LLC and its contributors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #ifndef ORCHESTRATOR_SCRIPT_H
 #define ORCHESTRATOR_SCRIPT_H
 
+#include "common/version.h"
 #include "orchestration/orchestration.h"
 #include "script/instances/instance_base.h"
 
@@ -72,21 +73,14 @@ protected:
     void _set_signals(const TypedArray<OScriptSignal>& p_signals) { _set_signals_internal(p_signals); }
     //~ End Serialization API
 
-    /// Updates the exported values
-    /// @param r_values the exported variable values
-    /// @param r_properties the exported variable property details
-    void _update_export_values(HashMap<StringName, Variant>& r_values, List<PropertyInfo>& r_properties) const;
-
     /// Update export placeholders
     /// @param r_err the output error
     /// @param p_recursive whether called recursively
     /// @param p_instance the script instance, should never be null
-    /// @param p_base_exports_changed whether base exports changed
-    bool _update_exports_placeholder(bool* r_err = nullptr, bool p_recursive = false, OScriptPlaceHolderInstance* p_instance = nullptr, bool p_base_exports_changed = false) const;
+    bool _update_exports_placeholder(bool* r_err, bool p_recursive, OScriptInstance* p_instance) const;
 
-    /// Updates the exports
-    /// @param p_base_exports_changed whether the base class exports changed
-    void _update_exports_down(bool p_base_exports_changed);
+    /// Updates the placeholders
+    void _update_placeholders() override;
 
 public:
     OScript();
@@ -122,15 +116,11 @@ public:
     bool _has_property_default_value(const StringName& p_property) const override;
     Variant _get_property_default_value(const StringName& p_property) const override;
     void _update_exports() override;
-    void _update_placeholders() override;
     int32_t _get_member_line(const StringName& p_member) const override;
     Dictionary _get_constants() const override;
     TypedArray<StringName> _get_members() const override;
     Variant _get_rpc_config() const override;
     String _get_class_icon_path() const override;
-    #if GODOT_VERSION >= 0x040400
-    StringName _get_doc_class_name() const override;
-    #endif
     //~ End ScriptExtension overrides
 
     /// Get the underlying script's language
@@ -144,9 +134,6 @@ public:
     /// Set whether the script operates in tool-mode
     /// @param p_tool true sets the script to tool mode, false does not
     void set_tool(bool p_tool) override { _tool = p_tool; }
-
-    // Taken from script.h/.cpp
-    void reload_from_file();
 };
 
 #endif  // ORCHESTRATOR_SCRIPT_H
